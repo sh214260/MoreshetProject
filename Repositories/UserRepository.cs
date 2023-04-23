@@ -22,6 +22,7 @@ namespace Repositories
             try
             {
                 context.Users.Add(newUser);
+                context.SaveChanges();
                 return true;
             }
             catch

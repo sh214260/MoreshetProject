@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services.Interfaces
+namespace Services
 {
-    internal interface IItemForOrder
+    public class ProductService
     {
     }
 }

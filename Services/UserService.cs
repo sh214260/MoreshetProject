@@ -1,22 +1,32 @@
 ﻿using DTO;
+using Repositories.Interfaces;
+using Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
-
+using AutoMapper;
 namespace Services
 {
     public  class UserService : Interfaces.IUserService
     {
-       
-        public bool AddNew(User newUser)
+        private readonly IMapper mapper;
+        private readonly Repositories.Interfaces.IUserRepository repository;
+        public UserService(IUserRepository dal,IMapper _mapper)
         {
-            //todo: use dal layer to insert new user
-            //return true or false - determined if the action succeeded
-            //use it by DI !!!!
-            throw new NotImplementedException();
+            mapper = _mapper;
+            repository = dal;
+        }
+        public bool AddNew(DTO.User newUser)
+        {
+            //if(newUser != null)
+            //{
+            repository.AddNew(mapper.Map<Repositories.Models.User>(newUser)); 
+            //    return true;
+            //}
+            return false;
         }
     }
 }

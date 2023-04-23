@@ -10,17 +10,17 @@ namespace API.Controllers
     {
         // GET: api/<ItemsForOrderController>
         [HttpGet]
-        public IEnumerable<DTO.ItemsForOrder> Get()
-        {
-            //return new string[] { "value1", "value2" };
-        }
+        //public IEnumerable<DTO.ItemsForOrder> Get()
+        //{
+        //    //return new string[] { "value1", "value2" };
+        //}
 
         // GET api/<ItemsForOrderController>/5
         [HttpGet("{id}")]
-        public DTO.ItemsForOrder Get(int id)
-        {
-            //return "value";
-        }
+        //public DTO.ItemsForOrder Get(int id)
+        //{
+        //    //return "value";
+        //}
 
         // POST api/<ItemsForOrderController>
         [HttpPost]

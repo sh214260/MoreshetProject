@@ -19,17 +19,17 @@ namespace API.Controllers
 
         // GET: api/<User>
         [HttpGet]
-        public IEnumerable<DTO.User> Get()
-        {
-         //   return; 
-        }
+        //public IEnumerable<DTO.User> Get()
+        //{
+        // //   return; 
+        //}
 
         // GET api/<User>/5
         [HttpGet("{id}")]
-        public DTO.User Get(int id)
-        {
-           // return "value";
-        }
+        //public DTO.User Get(int id)
+        //{
+        //   // return "value";
+        //}
 
         // POST api/<User>
         [HttpPost]

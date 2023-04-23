@@ -10,17 +10,17 @@ namespace API.Controllers
     {
         // GET: api/<CategoryController>
         [HttpGet]
-        public IEnumerable<DTO.Category> Get()
-        {
-           // return new string[] { "value1", "value2" };
-        }
+        //public IEnumerable<DTO.Category> Get()
+        //{
+        //   // return new string[] { "value1", "value2" };
+        //}
 
         // GET api/<CategoryController>/5
         [HttpGet("{id}")]
-        public DTO.Category Get(int id)
-        {
-            //return "value";
-        }
+        //public DTO.Category Get(int id)
+        //{
+        //    return "value";
+        //}
 
         // POST api/<CategoryController>
         [HttpPost]

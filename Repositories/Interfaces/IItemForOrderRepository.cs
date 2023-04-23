@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace Repositories.Interfaces
 {
-    public interface IUserRepository
+    public interface IItemForOrderRepository
     {
-        bool AddNew(Models.User newUser);
-
     }
 }

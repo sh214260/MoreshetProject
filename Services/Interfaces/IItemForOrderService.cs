@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Repositories.Interfaces
+namespace Services.Interfaces
 {
-    public interface IUserRepository
+    internal interface IItemForOrderService
     {
-        bool AddNew(Models.User newUser);
-
     }
 }
