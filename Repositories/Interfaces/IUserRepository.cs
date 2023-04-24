@@ -9,6 +9,7 @@ namespace Repositories.Interfaces
     public interface IUserRepository
     {
         bool AddNew(Models.User newUser);
-
+        public Models.User Get(int id);
+        public void Delete(int userId);
     }
 }

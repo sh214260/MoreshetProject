@@ -15,5 +15,24 @@ namespace Repositories
         {
             this.context = dal;
         }
+
+        public bool AddNew(Models.Product newProduct)
+        {
+            try
+            {
+                context.Products.Add(newProduct);
+                context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public IEnumerable<Models.Product> Get(Func<Models.Product, bool>? predicate = null)
+        {
+            return context.Products.ToList();
+        }
     }
 }

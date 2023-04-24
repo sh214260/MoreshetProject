@@ -20,7 +20,7 @@ namespace DTO
 
         public string? PhoneNumber { get; set; }
 
-      
+       
     }
 
 }

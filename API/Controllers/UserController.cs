@@ -26,10 +26,10 @@ namespace API.Controllers
 
         // GET api/<User>/5
         [HttpGet("{id}")]
-        //public DTO.User Get(int id)
-        //{
-        //   // return "value";
-        //}
+        public DTO.User Get(int id)
+        {
+          return service.Get(id);
+        }
 
         // POST api/<User>
         [HttpPost]
@@ -39,15 +39,16 @@ namespace API.Controllers
             return service.AddNew(user);
         }
 
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] DTO.User user)
-        {
-        }
+        //[HttpPut("{id}")]
+        //public void Put(int id, [FromBody] DTO.User user)
+        //{
+        //}
 
         // DELETE api/<User>/5
         [HttpDelete("{id}")]
         public void Delete(int userId)
         {
+            service.Delete(userId); 
         }
     }
 }

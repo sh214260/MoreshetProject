@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using AutoMapper;
+using System.Security.Cryptography.X509Certificates;
+
 namespace Services
 {
     public  class UserService : Interfaces.IUserService
@@ -21,12 +23,25 @@ namespace Services
         }
         public bool AddNew(DTO.User newUser)
         {
-            //if(newUser != null)
-            //{
-            repository.AddNew(mapper.Map<Repositories.Models.User>(newUser)); 
-            //    return true;
-            //}
+            if (newUser != null)
+            {
+                repository.AddNew(mapper.Map<Repositories.Models.User>(newUser));
+                return true;
+            }
             return false;
+        }
+
+        public DTO.User Get(int id)
+        {
+            DTO.User user;
+            user=mapper.Map<DTO.User>(repository.Get(id));
+            return user;
+            
+        }
+
+        public void Delete(int userId)
+        {
+           repository.Delete(userId);
         }
     }
 }

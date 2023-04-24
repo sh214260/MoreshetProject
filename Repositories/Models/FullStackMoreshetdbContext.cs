@@ -84,7 +84,6 @@ public partial class FullStackMoreshetdbContext : DbContext
         {
             entity.ToTable("User");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.Adress).HasMaxLength(50);
             entity.Property(e => e.Mail)
                 .HasMaxLength(50)

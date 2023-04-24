@@ -23,7 +23,7 @@ public partial class Order
 
     public int TotalPrice { get; set; }
 
-    public virtual ICollection<ItemsForOrder> ItemsForOrders { get; } = new List<ItemsForOrder>();
+    public virtual ICollection<ItemsForOrder> ItemsForOrders { get; set; } = new List<ItemsForOrder>();
 
     public virtual User User { get; set; } = null!;
 }

@@ -30,5 +30,19 @@ namespace Repositories
                 return false;
             }
         }
+
+        public Repositories.Models.User Get(int id)
+        {
+            Models.User user = new User();
+            user = context.Users.Find(id);
+            return user;
+        }
+        public void Delete(int userId)
+        {
+            Models.User user = new User();
+            user = context.Users.Find(userId);
+            context.Users.Remove(user);
+            context.SaveChanges();
+        }
     }
 }

@@ -8,5 +8,7 @@ namespace Repositories.Interfaces
 {
     public interface IProductRpository
     {
+        public bool AddNew(Models.Product newProduct);
+        public IEnumerable<Models.Product> Get(Func<Models.Product, bool>? predicate = null);
     }
 }

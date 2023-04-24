@@ -1,4 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Services.Interfaces;
+using DTO;
+using Repositories.Models;
+using Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,12 +12,17 @@ namespace API.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
+        private readonly Services.Interfaces.IProductService service;
+        public ProductController(IProductService bl)
+        {
+            service = bl;
+        }
         // GET: api/<ProductController>
         [HttpGet]
-        //public IEnumerable<DTO.Product> Get()
-        //{
-        //    //return new string[] { "value1", "value2" };
-        //}
+        public IEnumerable<DTO.Product> Get()
+        {
+            return service.Get();
+        }
 
         // GET api/<ProductController>/5
         [HttpGet("{id}")]
@@ -26,6 +35,7 @@ namespace API.Controllers
         [HttpPost]
         public void Post([FromBody] DTO.Product product)
         {
+            service.AddNew(product);
         }
 
         // PUT api/<ProductController>/5

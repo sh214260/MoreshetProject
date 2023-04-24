@@ -15,5 +15,18 @@ namespace Repositories
         {
             this.context = dal;
         }
+        public bool AddNew(Category newCategory)
+        {
+            try
+            {
+                context.Categories.Add(newCategory);
+                context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

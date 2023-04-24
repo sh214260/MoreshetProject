@@ -9,5 +9,7 @@ namespace Services.Interfaces
     public  interface  IUserService
     {
         bool AddNew(DTO.User newUser);
+        public DTO.User Get(int id);
+        public void Delete(int userId);
     }
 }

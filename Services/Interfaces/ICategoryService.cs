@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Services.Interfaces
 {
-    internal interface ICategoryService
+    public interface ICategoryService
     {
+        public bool AddNew(DTO.Category newCategory);
     }
 }
