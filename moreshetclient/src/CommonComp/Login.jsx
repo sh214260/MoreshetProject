@@ -51,7 +51,7 @@ function Login() {
     //        })
     /*}*/
     return (
-        <div id="content">jj
+        <div id="content">{/*<input type="text">login</input>*/}
            {/* <p className="p">*/}
            {/*     <label for="email"> mail </label>*/}
            {/*    */}{/* <input name="email" type="email" */}{/*onChange={(ev) => setEmail(ev.target.value)}*/}{/*></input>*/}
