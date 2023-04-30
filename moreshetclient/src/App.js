@@ -2,6 +2,8 @@ import logo from './logo.svg';
 import './App.css';
 import ProductActives from './ManagerComp/ProdactActives';
 import Schedule from './SecretaryComp/Schedule';
+import Catalog from './CommonComp/Catalog';
+import Login from './CommonComp/Login';
 function App() {
   return (
     <div className="App">

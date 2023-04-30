@@ -14,4 +14,8 @@
   <ItemGroup>
     <Folder Include="src\SecretaryComp\" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src\CommonComp\" />
+    <Folder Include="src\UserComp\" />
+  </ItemGroup>
 </Project>
