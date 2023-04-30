@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
-
+import ProductActives from './ManagerComp/ProdactActives';
+import Schedule from './SecretaryComp/Schedule';
 function App() {
   return (
     <div className="App">
@@ -17,7 +18,9 @@ function App() {
         >
           Learn React
         </a>
-      </header>
+          </header>
+          <ProductActives />
+          <Schedule />
     </div>
   );
 }
