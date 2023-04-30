@@ -2,7 +2,7 @@ import React from 'react';
 
 function ProductActives() {
   return (
-    <p>Hello world!</p>
+      <p>ProductActives</p>
   );
 }
 

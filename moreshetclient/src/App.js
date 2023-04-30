@@ -23,6 +23,8 @@ function App() {
           <Login/>
           <ProductActives />
           <Schedule />
+          <Catalog />
+          <Login />
     </div>
   );
 }
