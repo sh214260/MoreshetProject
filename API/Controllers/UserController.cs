@@ -19,10 +19,10 @@ namespace API.Controllers
 
         // GET: api/<User>
         [HttpGet]
-        //public IEnumerable<DTO.User> Get()
-        //{
-        // //   return; 
-        //}
+        public IEnumerable<DTO.User> Get()
+        {
+           return service.Get();
+        }
 
         // GET api/<User>/5
         [HttpGet("{id}")]
@@ -34,8 +34,7 @@ namespace API.Controllers
         // POST api/<User>
         [HttpPost]
         public bool Post([FromBody] DTO.User user)
-        {
-             
+        {   
             return service.AddNew(user);
         }
 

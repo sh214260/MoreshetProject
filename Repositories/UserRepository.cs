@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Repositories
 {
-    public  class UserRepository : IUserRepository
+    public class UserRepository : IUserRepository
     {
-        private readonly  FullStackMoreshetdbContext context;
+        private readonly FullStackMoreshetdbContext context;
         public UserRepository(FullStackMoreshetdbContext dal)
         {
             this.context = dal;
@@ -19,6 +19,11 @@ namespace Repositories
 
         public bool AddNew(User newUser)
         {
+            if (newUser == null)
+            {
+                //to do: nulL exception
+                throw new ArgumentNullException();
+            }
             try
             {
                 context.Users.Add(newUser);
@@ -33,16 +38,42 @@ namespace Repositories
 
         public Repositories.Models.User Get(int id)
         {
+            if (id < 0)
+            {
+                //to do: ex
+                throw new ArgumentOutOfRangeException();
+            }
             Models.User user = new User();
             user = context.Users.Find(id);
             return user;
         }
         public void Delete(int userId)
         {
-            Models.User user = new User();
-            user = context.Users.Find(userId);
-            context.Users.Remove(user);
-            context.SaveChanges();
+            try
+            {
+                if (userId < 0)
+                {
+                    //to do: ex
+                    throw new ArgumentOutOfRangeException();
+                }
+                Models.User user = new User();
+                user = context.Users.Find(userId);
+                context.Users.Remove(user);
+                context.SaveChanges();
+                
+            }
+            catch
+            {
+                
+            }
+        }
+        public IEnumerable<Models.User> Get(Func<Models.User, bool>? predicate = null)
+        {
+            if (predicate == null)
+            {
+                return context.Users.ToList();
+            }
+            return context.Users.Where(predicate);
         }
     }
 }

@@ -7,6 +7,7 @@ using Repositories.Interfaces;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using DTO;
+using Repositories.Models;
 
 namespace Services
 {
@@ -30,11 +31,41 @@ namespace Services
             return false;
         }
 
-        public IEnumerable<DTO.Product> Get(Func<DTO.Product, bool>? predicate = null)
+        public void Delete(int productId)
         {
-            IEnumerable <Repositories.Models.Product> ModelsProducts= repository.Get();
+            try
+            {
+                if (productId < 0)
+                {
+                    throw new EntityNotFoundExceptions();
+                }
+                repository.Delete(productId);
+                
+            }
+            catch
+            {
+                
+            }
+        }
+
+        public DTO.Product Get(int id)
+        {
+            if (id < 0)
+            {
+                throw new EntityNotFoundExceptions();
+            }
+            DTO.Product product;
+            product = mapper.Map<DTO.Product>(repository.Get(id));
+            return product;
+        }
+
+        public IEnumerable<DTO.Product> Get(Func<Repositories.Models.Product, bool>? predicate = null)
+        {
+            IEnumerable <Repositories.Models.Product> ModelsProducts= repository.Get(predicate);
             IEnumerable<DTO.Product> products = ModelsProducts.Select(pr => mapper.Map<Repositories.Models.Product, DTO.Product>(pr));
             return products;
         }
+
+        
     }
 }

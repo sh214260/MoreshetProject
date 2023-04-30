@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Repositories
 {
-    public class ProductRepository:IProductRpository
+    public class ProductRepository : IProductRpository
     {
         private readonly FullStackMoreshetdbContext context;
         public ProductRepository(FullStackMoreshetdbContext dal)
@@ -30,9 +30,42 @@ namespace Repositories
             }
         }
 
+        public void Delete(int productId)
+        {
+            try
+            {
+                if (productId < 0)
+                {
+                    //to do: ex
+                    throw new ArgumentOutOfRangeException();
+                }
+                Models.Product product = new Product();
+                product = context.Products.Find(productId);
+                context.Products.Remove(product);
+                context.SaveChanges();
+
+            }
+            catch
+            {
+
+            }
+        }
+        public Product Get(int id)
+        {
+            if (id < 0)
+            {
+                //to do: ex
+                throw new ArgumentOutOfRangeException();
+            }
+            Models.Product product = new Product();
+            product = context.Products.Find(id);
+            return product;
+
+        }
         public IEnumerable<Models.Product> Get(Func<Models.Product, bool>? predicate = null)
         {
-            return context.Products.ToList();
+            return context.Products.Where(predicate).ToList();
         }
+
     }
 }

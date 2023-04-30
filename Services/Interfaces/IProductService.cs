@@ -9,7 +9,9 @@ namespace Services.Interfaces
 {
     public interface IProductService
     {
-        bool AddNew(Product product);
-        public IEnumerable<DTO.Product> Get(Func<DTO.Product, bool>? predicate = null);
+        public bool AddNew(Product product);
+        public void Delete(int productId);
+        public DTO.Product Get(int id); 
+        public IEnumerable<DTO.Product> Get(Func<Repositories.Models.Product, bool>? predicate = null);
     }
 }

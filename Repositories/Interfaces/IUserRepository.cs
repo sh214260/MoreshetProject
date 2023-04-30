@@ -11,5 +11,6 @@ namespace Repositories.Interfaces
         bool AddNew(Models.User newUser);
         public Models.User Get(int id);
         public void Delete(int userId);
+        public IEnumerable<Models.User> Get(Func<Models.User, bool>? predicate = null);
     }
 }

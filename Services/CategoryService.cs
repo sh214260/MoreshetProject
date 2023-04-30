@@ -27,5 +27,25 @@ namespace Services
             }
             return false;
         }
+
+        public void Delete(int categoryId)
+        {
+            repository.Delete(categoryId);
+        }
+
+        public IEnumerable<DTO.Category> Get(Func<Repositories.Models.Category, bool>? predicate = null)
+        {
+            IEnumerable<Repositories.Models.Category> ModelsCategory = repository.Get(predicate);
+            if (ModelsCategory == null)
+            {
+                return null;
+            }
+            IEnumerable<DTO.Category> categories = ModelsCategory.Select(cat => mapper.Map<Repositories.Models.Category, DTO.Category>(cat));
+            if (categories == null)
+            {
+                throw new EmptyListException();
+            }
+            return categories;
+        }
     }
 }

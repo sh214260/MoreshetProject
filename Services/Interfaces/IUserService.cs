@@ -11,5 +11,6 @@ namespace Services.Interfaces
         bool AddNew(DTO.User newUser);
         public DTO.User Get(int id);
         public void Delete(int userId);
+        public IEnumerable<DTO.User> Get(Func<Repositories.Models.User, bool>? predicate = null);
     }
 }

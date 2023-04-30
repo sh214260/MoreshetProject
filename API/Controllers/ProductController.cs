@@ -26,10 +26,10 @@ namespace API.Controllers
 
         // GET api/<ProductController>/5
         [HttpGet("{id}")]
-        //public DTO.Product Get(int id)
-        //{
-        //   // return "value";
-        //}
+        public DTO.Product Get(int id)
+        {
+            return service.Get(id);
+        }
 
         // POST api/<ProductController>
         [HttpPost]
@@ -48,6 +48,7 @@ namespace API.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            service.Delete(id); 
         }
     }
 }

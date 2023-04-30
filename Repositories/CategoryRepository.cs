@@ -28,5 +28,22 @@ namespace Repositories
                 return false;
             }
         }
+
+        public void Delete(int categoryId)
+        {
+            Models.Category category = new Category();
+            category = context.Categories.Find(categoryId);
+            context.Categories.Remove(category);
+            context.SaveChanges();
+        }
+
+        public IEnumerable<Category> Get(Func<Category, bool>? predicate = null)
+        {
+            if (predicate == null)
+            {
+                return context.Categories.ToList();
+            }
+            return context.Categories.Where(predicate);
+        }
     }
 }
