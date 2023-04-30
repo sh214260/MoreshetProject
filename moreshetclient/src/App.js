@@ -1,5 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
+import ProductActives from './ManagerComp/ProdactActives';
+import Schedule from './SecretaryComp/Schedule';
 import Catalog from './CommonComp/Catalog';
 import Login from './CommonComp/Login';
 function App() {
@@ -22,6 +24,21 @@ function App() {
               <Catalog />
           </header>
           
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+          </header>
+          <ProductActives />
+          <Schedule />
     </div>
   );
 }
