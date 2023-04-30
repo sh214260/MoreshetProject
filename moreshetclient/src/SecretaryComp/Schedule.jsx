@@ -2,7 +2,7 @@ import React from 'react';
 
 function Schedule() {
   return (
-    <p>Hello world!</p>
+      <p>Schedule</p>
   );
 }
 

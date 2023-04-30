@@ -22,6 +22,8 @@ function App() {
           </header>
           <ProductActives />
           <Schedule />
+          <Catalog />
+          <Login />
     </div>
   );
 }
