@@ -2,6 +2,7 @@
 using DTO;
 using Repositories.Models;
 using Services.Interfaces;
+using System.Collections.Generic;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -21,7 +22,9 @@ namespace API.Controllers
         [HttpGet]
         public IEnumerable<DTO.User> Get()
         {
-           return service.Get();
+            IEnumerable < DTO.User> data = service.Get();
+            HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+            return data;
         }
 
         // GET api/<User>/5
@@ -34,8 +37,11 @@ namespace API.Controllers
         // POST api/<User>
         [HttpPost]
         public bool Post([FromBody] DTO.User user)
-        {   
-            return service.AddNew(user);
+        {
+            bool data = service.AddNew(user);
+            HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+            return data;
+            
         }
 
         //[HttpPut("{id}")]

@@ -21,7 +21,9 @@ namespace API.Controllers
         [HttpGet]
         public IEnumerable<DTO.Product> Get()
         {
-            return service.Get();
+            IEnumerable<DTO.Product> data = service.Get();
+            HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+            return data;
         }
 
         // GET api/<ProductController>/5

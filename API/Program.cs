@@ -28,5 +28,19 @@ app.UseAuthorization();
 app.MapControllers();
 
 
-
+ void ConfigureServices(IServiceCollection services)
+{
+    services.AddCors(options =>
+    {
+        options.AddPolicy("AllowAllOrigins",
+            builder =>
+            {
+                builder.AllowAnyOrigin();
+            });
+    });
+}
+ void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+{
+    app.UseCors("AllowAllOrigins");
+}
 app.Run();

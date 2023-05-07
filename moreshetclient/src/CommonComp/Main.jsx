@@ -1,8 +1,10 @@
 import React from 'react';
-
+import Nav from './Nav';
 function ReactComponent() {
-  return (
-    <p>Hello world!</p>
+  return (<div>
+      <p>main</p>
+      <Nav/>
+  </div>
   );
 }
 

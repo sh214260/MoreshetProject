@@ -64,7 +64,11 @@ namespace Repositories
         }
         public IEnumerable<Models.Product> Get(Func<Models.Product, bool>? predicate = null)
         {
-            return context.Products.Where(predicate).ToList();
+            if(predicate == null)
+            {
+                return context.Products.ToList();
+            }
+            return context.Products.Where(predicate);
         }
 
     }

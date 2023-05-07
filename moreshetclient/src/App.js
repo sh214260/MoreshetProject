@@ -4,6 +4,7 @@ import ProductActives from './ManagerComp/ProdactActives';
 import Schedule from './SecretaryComp/Schedule';
 import Catalog from './CommonComp/Catalog';
 import Login from './CommonComp/Login';
+import Main from './CommonComp/Main';
 function App() {
   return (
     <div className="App">
@@ -24,6 +25,7 @@ function App() {
           <ProductActives />
           <Schedule />
           <Catalog />
+          <Main/>
           <Login />
     </div>
   );
