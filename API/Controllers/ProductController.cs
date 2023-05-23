@@ -3,6 +3,7 @@ using Services.Interfaces;
 using DTO;
 using Repositories.Models;
 using Services;
+using Microsoft.AspNetCore.Cors;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -10,6 +11,7 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    
     public class ProductController : ControllerBase
     {
         private readonly Services.Interfaces.IProductService service;
@@ -35,9 +37,13 @@ namespace API.Controllers
 
         // POST api/<ProductController>
         [HttpPost]
-        public void Post([FromBody] DTO.Product product)
+        [EnableCors("AllowAll")]
+        public bool Post([FromBody] DTO.Product product)
         {
-            service.AddNew(product);
+            bool data = service.AddNew(product);
+            HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+            return data;
+            //    service.AddNew(product);
         }
 
         // PUT api/<ProductController>/5

@@ -20,6 +20,8 @@ namespace DTO
 
         public string? PhoneNumber { get; set; }
 
+        public int? Type { get; set; }
+
        
     }
 

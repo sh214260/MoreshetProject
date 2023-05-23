@@ -15,6 +15,8 @@ public partial class FullStackMoreshetdbContext : DbContext
     {
     }
 
+    public virtual DbSet<Cart> Carts { get; set; }
+
     public virtual DbSet<Category> Categories { get; set; }
 
     public virtual DbSet<ItemsForOrder> ItemsForOrders { get; set; }
@@ -31,6 +33,24 @@ public partial class FullStackMoreshetdbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Cart>(entity =>
+        {
+            entity.ToTable("Cart");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.ProductId).HasColumnName("productId");
+            entity.Property(e => e.TotalPrice).HasColumnName("totalPrice");
+            entity.Property(e => e.UserId).HasColumnName("userId");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Carts)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK_Cart_Product");
+
+            entity.HasOne(d => d.UserNavigation).WithMany(p => p.Carts)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK_Cart_User");
+        });
+
         modelBuilder.Entity<Category>(entity =>
         {
             entity.ToTable("Category");
@@ -72,7 +92,6 @@ public partial class FullStackMoreshetdbContext : DbContext
         {
             entity.ToTable("Product");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.Name).HasMaxLength(20);
 
             entity.HasOne(d => d.Category).WithMany(p => p.Products)
@@ -84,7 +103,7 @@ public partial class FullStackMoreshetdbContext : DbContext
         {
             entity.ToTable("User");
 
-            entity.Property(e => e.Adress).HasMaxLength(50);
+            entity.Property(e => e.Address).HasMaxLength(50);
             entity.Property(e => e.Mail)
                 .HasMaxLength(50)
                 .IsUnicode(false);

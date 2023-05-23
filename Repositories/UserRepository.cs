@@ -71,6 +71,7 @@ namespace Repositories
         {
             if (predicate == null)
             {
+
                 return context.Users.ToList();
             }
             return context.Users.Where(predicate);

@@ -3,6 +3,7 @@ using DTO;
 using Repositories.Models;
 using Services.Interfaces;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Cors;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -36,6 +37,7 @@ namespace API.Controllers
 
         // POST api/<User>
         [HttpPost]
+        [EnableCors("AllowAllOrigins")]
         public bool Post([FromBody] DTO.User user)
         {
             bool data = service.AddNew(user);
