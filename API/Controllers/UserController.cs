@@ -26,6 +26,7 @@ namespace API.Controllers
             IEnumerable < DTO.User> data = service.Get();
             HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
             return data;
+
         }
 
         // GET api/<User>/5
