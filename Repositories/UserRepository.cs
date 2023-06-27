@@ -76,5 +76,11 @@ namespace Repositories
             }
             return context.Users.Where(predicate);
         }
+
+        public Models.User GetUser(string email, string password)
+        {
+           return context.Users.Where(user => user.Mail == email && user.Password == password).FirstOrDefault();
+        }
+
     }
 }

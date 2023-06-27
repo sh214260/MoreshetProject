@@ -12,5 +12,6 @@ namespace Services.Interfaces
         public DTO.User Get(int id);
         public void Delete(int userId);
         public IEnumerable<DTO.User> Get(Func<Repositories.Models.User, bool>? predicate = null);
+        public DTO.User GetUser(string email, string password);
     }
 }

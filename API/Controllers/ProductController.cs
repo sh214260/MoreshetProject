@@ -11,7 +11,7 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    
+
     public class ProductController : ControllerBase
     {
         private readonly Services.Interfaces.IProductService service;
@@ -37,14 +37,16 @@ namespace API.Controllers
 
         // POST api/<ProductController>
         [HttpPost]
+        //[Route("api/Product")]
         [EnableCors("AllowAll")]
-        public bool Post([FromBody] DTO.Product product)
+        public bool Post(DTO.Product product)
         {
+
             bool data = service.AddNew(product);
-            HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+          //  HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
             return data;
-            //    service.AddNew(product);
         }
+
 
         // PUT api/<ProductController>/5
         [HttpPut("{id}")]

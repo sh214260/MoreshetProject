@@ -23,7 +23,7 @@ namespace API.Controllers
         [HttpGet]
         public IEnumerable<DTO.User> Get()
         {
-            IEnumerable < DTO.User> data = service.Get();
+            IEnumerable <DTO.User> data = service.Get();
             HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
             return data;
 
@@ -35,6 +35,16 @@ namespace API.Controllers
         {
           return service.Get(id);
         }
+
+        // GET api/<User>/5
+        [HttpGet("GetUser/{email}/{password}")]
+        public DTO.User GetUser(string email, string password)
+        {
+            DTO.User data = service.GetUser(email, password);
+            HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+            return data;
+        }
+
 
         // POST api/<User>
         [HttpPost]
@@ -50,13 +60,17 @@ namespace API.Controllers
         //[HttpPut("{id}")]
         //public void Put(int id, [FromBody] DTO.User user)
         //{
+            
         //}
 
         // DELETE api/<User>/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{userId}")]
         public void Delete(int userId)
         {
-            service.Delete(userId); 
+            service.Delete(userId);
+            HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+           
+            
         }
     }
 }

@@ -8,7 +8,7 @@ namespace DTO
 {
     public class Product
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         public string? Name { get; set; }
 
@@ -17,4 +17,5 @@ namespace DTO
         public int? Price { get; set; }
 
     }
+
 }

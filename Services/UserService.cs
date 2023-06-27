@@ -66,7 +66,7 @@ namespace Services
             }
             catch
             {
-
+                throw new ArgumentNullException(nameof(userId));    
             }
         }
 
@@ -83,6 +83,15 @@ namespace Services
                 throw new EmptyListException();
             }
             return users;
+        }
+
+        public User GetUser(string email, string password)
+        {
+            Repositories.Models.User user1 = repository.GetUser(email, password);
+            DTO.User user;
+            user = mapper.Map<DTO.User>(user1);
+            return user;
+            
         }
     }
 }
