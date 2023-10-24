@@ -31,6 +31,11 @@ namespace Services
             return false;
         }
 
+        public bool AddToCart(int userid,int productId)
+        {
+            if()
+        }
+
         public void Delete(int productId)
         {
             try

@@ -20,15 +20,20 @@ namespace Repositories
         {
             try
             {
-                context.Products.Add(newProduct);
+                if (context.Products.Any(p => p.Name == newProduct.Name))
+                {
+                    return false;
+                }
+                context.Products.Add(newProduct); 
                 context.SaveChanges();
                 return true;
             }
-            catch
+            catch (Exception)
             {
                 return false;
             }
         }
+
 
         public void Delete(int productId)
         {

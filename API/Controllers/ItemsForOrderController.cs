@@ -23,7 +23,7 @@ namespace API.Controllers
         //}
 
         // POST api/<ItemsForOrderController>
-        [HttpPost]
+        [HttpPost("addtocart")]
         public void Post([FromBody] DTO.ItemsForOrder itemsForOrder)
         {
         }

@@ -37,18 +37,18 @@ namespace API.Controllers
         }
 
         // GET api/<User>/5
-        [HttpGet("GetUser/{email}/{password}")]
-        public DTO.User GetUser(string email, string password)
+        [HttpPost("signin")]
+        public DTO.User Singin([FromBody] Login login)
         {
-            DTO.User data = service.GetUser(email, password);
+            DTO.User data = service.GetUser(login.email, login.password);
             HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
             return data;
         }
 
 
         // POST api/<User>
-        [HttpPost]
-        [EnableCors("AllowAllOrigins")]
+        [HttpPost("signup")]
+        //[EnableCors("AllowAllOrigins")]
         public bool Post([FromBody] DTO.User user)
         {
             bool data = service.AddNew(user);

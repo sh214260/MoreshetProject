@@ -15,6 +15,14 @@ namespace DTO
         public int? CategoryId { get; set; }
 
         public int? Price { get; set; }
+        public string? Description { get; set; }
+        public override bool Equals(object? obj)
+        {
+            if (obj == null) return false;
+            if(obj.GetType() != typeof(Product)) return false;
+            Product other = (Product)obj;
+            return other.Id == this.Id;
+        }
 
     }
 

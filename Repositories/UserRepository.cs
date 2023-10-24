@@ -26,11 +26,15 @@ namespace Repositories
             }
             try
             {
+                if (context.Users.Any(u => u.Email == newUser.Email))
+                {
+                    return false;
+                }
                 context.Users.Add(newUser);
                 context.SaveChanges();
                 return true;
             }
-            catch
+            catch (Exception)
             {
                 return false;
             }
@@ -79,7 +83,12 @@ namespace Repositories
 
         public Models.User GetUser(string email, string password)
         {
-           return context.Users.Where(user => user.Mail == email && user.Password == password).FirstOrDefault();
+            //todo:first or defual
+            Models.User ?user = context.Users.Where(user => user.Email == email && user.Password == password).FirstOrDefault();
+            if (user != null)
+                return user;
+            return null;
+            
         }
 
     }

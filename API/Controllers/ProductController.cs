@@ -20,7 +20,7 @@ namespace API.Controllers
             service = bl;
         }
         // GET: api/<ProductController>
-        [HttpGet]
+        [HttpGet("getall")]
         public IEnumerable<DTO.Product> Get()
         {
             IEnumerable<DTO.Product> data = service.Get();
@@ -29,29 +29,28 @@ namespace API.Controllers
         }
 
         // GET api/<ProductController>/5
-        [HttpGet("{id}")]
+        [HttpGet("getbyid/{id}")]
         public DTO.Product Get(int id)
         {
             return service.Get(id);
         }
 
         // POST api/<ProductController>
-        [HttpPost]
-        //[Route("api/Product")]
-        [EnableCors("AllowAll")]
+        [HttpPost("addproduct")]
+        //[EnableCors("AllowAll")]
         public bool Post(DTO.Product product)
         {
-
             bool data = service.AddNew(product);
-          //  HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+            HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
             return data;
         }
 
 
-        // PUT api/<ProductController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] DTO.Product product)
+        //PUT api/<ProductController>/5
+        [HttpPut("{productid}")]
+        public void Put([FromBody]int userID,int productid)
         {
+            service.
         }
 
         // DELETE api/<ProductController>/5
