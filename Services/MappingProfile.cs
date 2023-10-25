@@ -16,6 +16,8 @@ namespace Services
             CreateMap<Repositories.Models.Product, DTO.Product>().ReverseMap();
             CreateMap<Repositories.Models.Order, DTO.Order>().ReverseMap();
             CreateMap<Repositories.Models.ItemsForOrder, DTO.ItemsForOrder>().ReverseMap();
+            CreateMap<Repositories.Models.Cart, DTO.Cart>().ReverseMap();
+            CreateMap<Repositories.Models.CartProduct, DTO.CartProduct>().ReverseMap();
         }
 
     }

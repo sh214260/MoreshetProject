@@ -17,6 +17,8 @@ public partial class FullStackMoreshetdbContext : DbContext
 
     public virtual DbSet<Cart> Carts { get; set; }
 
+    public virtual DbSet<CartProduct> CartProducts { get; set; }
+
     public virtual DbSet<Category> Categories { get; set; }
 
     public virtual DbSet<ItemsForOrder> ItemsForOrders { get; set; }
@@ -37,33 +39,39 @@ public partial class FullStackMoreshetdbContext : DbContext
         {
             entity.ToTable("Cart");
 
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.ProductId).HasColumnName("productId");
-            entity.Property(e => e.TotalPrice).HasColumnName("totalPrice");
-            entity.Property(e => e.UserId).HasColumnName("userId");
-
             entity.HasOne(d => d.User).WithMany(p => p.Carts)
                 .HasForeignKey(d => d.UserId)
-                .HasConstraintName("FK_Cart_Product");
-
-            entity.HasOne(d => d.UserNavigation).WithMany(p => p.Carts)
-                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Cart_User");
+        });
+
+        modelBuilder.Entity<CartProduct>(entity =>
+        {
+            entity.ToTable("CartProduct");
+
+            entity.Property(e => e.Id).ValueGeneratedNever();
+
+            entity.HasOne(d => d.Cart).WithMany(p => p.CartProducts)
+                .HasForeignKey(d => d.CartId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_CartProduct_Cart");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.CartProducts)
+                .HasForeignKey(d => d.ProductId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_CartProduct_Product");
         });
 
         modelBuilder.Entity<Category>(entity =>
         {
             entity.ToTable("Category");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
-            entity.Property(e => e.Name).HasMaxLength(20);
+            entity.Property(e => e.Name).HasMaxLength(50);
         });
 
         modelBuilder.Entity<ItemsForOrder>(entity =>
         {
             entity.ToTable("ItemsForOrder");
-
-            entity.Property(e => e.Id).ValueGeneratedNever();
 
             entity.HasOne(d => d.Order).WithMany(p => p.ItemsForOrders)
                 .HasForeignKey(d => d.OrderId)
@@ -80,8 +88,6 @@ public partial class FullStackMoreshetdbContext : DbContext
         {
             entity.ToTable("Order");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
-
             entity.HasOne(d => d.User).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -92,10 +98,12 @@ public partial class FullStackMoreshetdbContext : DbContext
         {
             entity.ToTable("Product");
 
+            entity.Property(e => e.Description).HasMaxLength(100);
             entity.Property(e => e.Name).HasMaxLength(20);
 
             entity.HasOne(d => d.Category).WithMany(p => p.Products)
                 .HasForeignKey(d => d.CategoryId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Product_Category");
         });
 
@@ -104,12 +112,14 @@ public partial class FullStackMoreshetdbContext : DbContext
             entity.ToTable("User");
 
             entity.Property(e => e.Address).HasMaxLength(50);
-            entity.Property(e => e.Email)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.Name).HasMaxLength(40);
-            entity.Property(e => e.Password).HasMaxLength(15);
-            entity.Property(e => e.PhoneNumber1);
+            entity.Property(e => e.Email).HasMaxLength(50);
+            entity.Property(e => e.Name).HasMaxLength(50);
+            entity.Property(e => e.Password)
+                .HasMaxLength(10)
+                .IsFixedLength();
+            entity.Property(e => e.PhoneNumber1)
+                .HasMaxLength(10)
+                .IsFixedLength();
             entity.Property(e => e.PhoneNumber2)
                 .HasMaxLength(10)
                 .IsFixedLength();

@@ -48,9 +48,10 @@ namespace API.Controllers
 
         //PUT api/<ProductController>/5
         [HttpPut("{productid}")]
-        public void Put([FromBody]int userID,int productid)
+        public DTO.CartProduct Put([FromBody]int userID,int productid)
         {
-            service.
+            return service.AddToCart(userID, productid);
+           
         }
 
         // DELETE api/<ProductController>/5

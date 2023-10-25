@@ -9,7 +9,7 @@ public partial class Order
 
     public int UserId { get; set; }
 
-    public bool IsDelivery { get; set; }
+    public int DeliveryPrice { get; set; }
 
     public DateTime DateOrder { get; set; }
 
@@ -19,7 +19,7 @@ public partial class Order
 
     public bool PaidUp { get; set; }
 
-    public bool? Receipt { get; set; }
+    public bool Receipt { get; set; }
 
     public int TotalPrice { get; set; }
 

@@ -5,9 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Repositories.Interfaces;
 using AutoMapper;
+using Repositories.Models;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using DTO;
-using Repositories.Models;
+
 
 namespace Services
 {
@@ -31,9 +32,11 @@ namespace Services
             return false;
         }
 
-        public bool AddToCart(int userid,int productId)
+        public DTO.CartProduct AddToCart(int userId, int productId)
         {
-            if()
+            Repositories.Models.CartProduct cartProduct = repository.AddToCart(userId, productId);
+            DTO.CartProduct cart = mapper.Map<Repositories.Models.CartProduct,DTO.CartProduct>(cartProduct);
+            return cart;
         }
 
         public void Delete(int productId)

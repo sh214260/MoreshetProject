@@ -33,6 +33,35 @@ namespace Repositories
                 return false;
             }
         }
+        public Models.CartProduct AddToCart(int userId, int productId)
+        {
+            Models.Cart existingCart = context.Carts.FirstOrDefault(cart => cart.UserId == userId && cart.IsOpen==true);
+            
+            if (existingCart == null)
+            {
+                Models.Cart newCart = new Cart();
+                newCart.UserId = userId;
+                context.Carts.Add(newCart);
+                Models.CartProduct cartProduct = new Models.CartProduct() 
+                { 
+                  ProductId = productId,
+                  CartId=newCart.Id
+                };
+                newCart.CartProducts.Add(cartProduct);
+                return cartProduct;
+            }
+            else
+            {
+                Models.CartProduct cartProduct = new Models.CartProduct()
+                {
+                    ProductId = productId,
+                    CartId = existingCart.Id
+                };
+                existingCart.CartProducts.Add(cartProduct);
+                return cartProduct;
+            }
+            
+        }
 
 
         public void Delete(int productId)

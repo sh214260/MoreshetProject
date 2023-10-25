@@ -7,13 +7,13 @@ public partial class Cart
 {
     public int Id { get; set; }
 
-    public List<Product> Products { get; set; }
-
-    public int? UserId { get; set; }
+    public int UserId { get; set; }
 
     public double TotalPrice { get; set; }
 
-    public virtual Product? User { get; set; }
+    public bool IsOpen { get; set; }
 
-    public virtual User? UserNavigation { get; set; }
+    public virtual ICollection<CartProduct> CartProducts { get; set; } = new List<CartProduct>();
+
+    public virtual User User { get; set; } = null!;
 }

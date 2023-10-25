@@ -14,15 +14,19 @@ namespace Services
         {
             collection.AddScoped(typeof(Repositories.Interfaces.IUserRepository), typeof(Repositories.UserRepository));
             collection.AddScoped(typeof(Repositories.Interfaces.ICategoryRepository), typeof(Repositories.CategoryRepository));
-           // collection.AddScoped(typeof(Repositories.Interfaces.IItemForOrderRepository), typeof(Repositories.ItemForOrderRepository));
+            //collection.AddScoped(typeof(Repositories.Interfaces.IItemForOrderRepository), typeof(Repositories.ItemForOrderRepository));
             collection.AddScoped(typeof(Repositories.Interfaces.IOrderRepository), typeof(Repositories.OrderRepository));
             collection.AddScoped(typeof(Repositories.Interfaces.IProductRpository), typeof(Repositories.ProductRepository));
+            collection.AddScoped(typeof(Repositories.Interfaces.ICartProduct), typeof(Repositories.CartProduct));
+
 
             collection.AddScoped(typeof(Services.Interfaces.IUserService), typeof(Services.UserService));
             collection.AddScoped(typeof(Services.Interfaces.ICategoryService), typeof(Services.CategoryService));
             //collection.AddScoped(typeof(Services.Interfaces.IItemForOrderService), typeof(Services.ItemForOrderService));
             collection.AddScoped(typeof(Services.Interfaces.IOrderService), typeof(Services.OrderService));
             collection.AddScoped(typeof(Services.Interfaces.IProductService), typeof(Services.ProductService));
+            collection.AddScoped(typeof(Services.Interfaces.ICartProduct), typeof(Services.CartProduct));
+
 
             collection.AddDbContext<Repositories.Models.FullStackMoreshetdbContext>();
             var mapping = new MapperConfiguration(mc =>
