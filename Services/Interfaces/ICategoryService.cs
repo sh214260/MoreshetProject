@@ -10,6 +10,7 @@ namespace Services.Interfaces
     {
         public bool AddNew(DTO.Category newCategory);
         public void Delete(int categoryId);
+        public DTO.Category Get(int id);
         public IEnumerable<DTO.Category> Get(Func<Repositories.Models.Category, bool>? predicate = null);
     }
 }

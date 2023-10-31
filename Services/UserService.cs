@@ -25,9 +25,8 @@ namespace Services
         public bool AddNew(DTO.User newUser)
         {
             if (newUser != null)
-            {
-                repository.AddNew(mapper.Map<Repositories.Models.User>(newUser));
-                return true;
+            {               
+                return repository.AddNew(mapper.Map<Repositories.Models.User>(newUser));
             }
             return false;
         }

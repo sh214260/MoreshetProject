@@ -36,7 +36,13 @@ namespace Repositories
             context.Categories.Remove(category);
             context.SaveChanges();
         }
-
+        public Repositories.Models.Category? Get(int id)
+        {
+            Repositories.Models.Category? category = context.Categories?.FirstOrDefault(cat=>cat.Id == id);
+            if (category!=null)
+                return category;
+            return null;
+        }
         public IEnumerable<Category> Get(Func<Category, bool>? predicate = null)
         {
             if (predicate == null)

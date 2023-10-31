@@ -16,6 +16,8 @@ namespace DTO
 
         public int? Price { get; set; }
         public string? Description { get; set; }
+        public string? Type { get; set; }
+
         public override bool Equals(object? obj)
         {
             if (obj == null) return false;

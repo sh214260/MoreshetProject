@@ -15,6 +15,8 @@ public partial class Product
 
     public string? Description { get; set; }
 
+    public string? Type { get; set; }
+
     public virtual ICollection<CartProduct> CartProducts { get; set; } = new List<CartProduct>();
 
     public virtual Category Category { get; set; } = null!;

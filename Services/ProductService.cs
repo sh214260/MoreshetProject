@@ -26,18 +26,12 @@ namespace Services
         {
             if (newProduct != null)
             {
-                repository.AddNew(mapper.Map<Repositories.Models.Product>(newProduct));
-                return true;
+                return repository.AddNew(mapper.Map<Repositories.Models.Product>(newProduct));
+                 
             }
             return false;
         }
 
-        public DTO.CartProduct AddToCart(int userId, int productId)
-        {
-            Repositories.Models.CartProduct cartProduct = repository.AddToCart(userId, productId);
-            DTO.CartProduct cart = mapper.Map<Repositories.Models.CartProduct,DTO.CartProduct>(cartProduct);
-            return cart;
-        }
 
         public void Delete(int productId)
         {

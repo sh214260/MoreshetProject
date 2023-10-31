@@ -32,7 +32,10 @@ namespace Services
         {
             repository.Delete(categoryId);
         }
-
+        public DTO.Category Get(int id)
+        {
+            return mapper.Map<Repositories.Models.Category, DTO.Category>(repository.Get(id));
+        }
         public IEnumerable<DTO.Category> Get(Func<Repositories.Models.Category, bool>? predicate = null)
         {
             IEnumerable<Repositories.Models.Category> ModelsCategory = repository.Get(predicate);

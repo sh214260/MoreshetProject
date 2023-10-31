@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Repositories.Interfaces
 {
-    public interface ICartProduct
+    public interface ICartProductRepository
     {
+
     }
 }

@@ -15,18 +15,18 @@ namespace API.Controllers
             service = bl;
         }
         // GET: api/<CategoryController>
-        [HttpGet]
-        //public IEnumerable<DTO.Category> Get()
-        //{
-        //   // return new string[] { "value1", "value2" };
-        //}
+        [HttpGet("Get")]
+        public IEnumerable<DTO.Category> Get()
+        {
+            return service.Get();   
+        }
 
         // GET api/<CategoryController>/5
         [HttpGet("{id}")]
-        //public DTO.Category Get(int id)
-        //{
-        //    return "value";
-        //}
+        public DTO.Category Get(int id)
+        {
+            return service.Get(id);
+        }
 
         // POST api/<CategoryController>
         [HttpPost]

@@ -100,6 +100,7 @@ public partial class FullStackMoreshetdbContext : DbContext
 
             entity.Property(e => e.Description).HasMaxLength(100);
             entity.Property(e => e.Name).HasMaxLength(20);
+            entity.Property(e => e.Type).HasMaxLength(10);
 
             entity.HasOne(d => d.Category).WithMany(p => p.Products)
                 .HasForeignKey(d => d.CategoryId)

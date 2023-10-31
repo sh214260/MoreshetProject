@@ -17,7 +17,8 @@ namespace Services
             //collection.AddScoped(typeof(Repositories.Interfaces.IItemForOrderRepository), typeof(Repositories.ItemForOrderRepository));
             collection.AddScoped(typeof(Repositories.Interfaces.IOrderRepository), typeof(Repositories.OrderRepository));
             collection.AddScoped(typeof(Repositories.Interfaces.IProductRpository), typeof(Repositories.ProductRepository));
-            collection.AddScoped(typeof(Repositories.Interfaces.ICartProduct), typeof(Repositories.CartProduct));
+            collection.AddScoped(typeof(Repositories.Interfaces.ICartProductRepository), typeof(Repositories.CartProductRepository));
+            collection.AddScoped(typeof(Repositories.Interfaces.ICartRepository), typeof(Repositories.CartRepository));
 
 
             collection.AddScoped(typeof(Services.Interfaces.IUserService), typeof(Services.UserService));
@@ -26,6 +27,7 @@ namespace Services
             collection.AddScoped(typeof(Services.Interfaces.IOrderService), typeof(Services.OrderService));
             collection.AddScoped(typeof(Services.Interfaces.IProductService), typeof(Services.ProductService));
             collection.AddScoped(typeof(Services.Interfaces.ICartProduct), typeof(Services.CartProduct));
+            collection.AddScoped(typeof(Services.Interfaces.ICartService), typeof(Services.CartService));
 
 
             collection.AddDbContext<Repositories.Models.FullStackMoreshetdbContext>();
