@@ -28,5 +28,9 @@ namespace Services
             DTO.Cart cart = mapper.Map<Repositories.Models.Cart, DTO.Cart>(_cart);
             return cart;
         }
+        public int GetTotalPrice(int cartId)
+        {
+            return repository.GetTotalPrice(cartId);
+        }
     }
 }

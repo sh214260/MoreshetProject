@@ -46,6 +46,7 @@ namespace Repositories
                     CartId = newCart.Id
                 };
                 newCart.CartProducts.Add(cartProduct);
+                //context.SaveChanges();
                 return newCart;
             }
             else
@@ -56,10 +57,20 @@ namespace Repositories
                     CartId = existingCart.Id
                 };
                 existingCart.CartProducts.Add(cartProduct);
-                //context.SaveChanges();
+                context.SaveChanges();
                 return existingCart;
             }
-
+        }
+        public int GetTotalPrice(int cartId)
+        {
+            var query = from c in context.Carts
+                        join cp in context.CartProducts on c.Id equals cp.CartId
+                        join p in context.Products on cp.ProductId equals p.Id
+                        select new
+                        { cp.ProductId, p.Price };
+            var results = query.ToList();
+            int totalPrice = results.Sum(p => p.Price);
+            return totalPrice;
         }
     }
 }

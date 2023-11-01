@@ -26,7 +26,7 @@ namespace Services
             //collection.AddScoped(typeof(Services.Interfaces.IItemForOrderService), typeof(Services.ItemForOrderService));
             collection.AddScoped(typeof(Services.Interfaces.IOrderService), typeof(Services.OrderService));
             collection.AddScoped(typeof(Services.Interfaces.IProductService), typeof(Services.ProductService));
-            collection.AddScoped(typeof(Services.Interfaces.ICartProduct), typeof(Services.CartProduct));
+            collection.AddScoped(typeof(Services.Interfaces.ICartProductService), typeof(Services.CartProductService));
             collection.AddScoped(typeof(Services.Interfaces.ICartService), typeof(Services.CartService));
 
 

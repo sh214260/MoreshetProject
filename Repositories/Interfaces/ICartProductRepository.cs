@@ -8,6 +8,8 @@ namespace Repositories.Interfaces
 {
     public interface ICartProductRepository
     {
+        public IEnumerable<Models.CartProduct> Get(int cartId);
+        public IEnumerable<Models.Product> GetProducts(int cartId);
 
     }
 }

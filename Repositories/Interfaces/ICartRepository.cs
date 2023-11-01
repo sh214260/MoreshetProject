@@ -10,6 +10,7 @@ namespace Repositories.Interfaces
     {
         public Models.Cart AddToCart(int userId, int productId);
         public bool ProductIsAvialible(string type, DateTime from, DateTime to);
+        public int GetTotalPrice(int cartId);
 
     }
 }

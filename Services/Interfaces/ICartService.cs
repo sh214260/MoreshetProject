@@ -8,8 +8,8 @@ namespace Services.Interfaces
 {
     public interface ICartService
     {
-        
-       public bool ProductIsAvialible(string type, DateTime from, DateTime to);
+        public bool ProductIsAvialible(string type, DateTime from, DateTime to);
         public DTO.Cart AddToCart(int userId, int productId);
+        public int GetTotalPrice(int cartId);
     }
 }

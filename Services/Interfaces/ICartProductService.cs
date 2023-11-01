@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace Services.Interfaces
 {
-    public interface ICartProduct
+    public interface ICartProductService
     {
+        public IEnumerable<DTO.CartProduct> Get(int cartId);
+        public IEnumerable<DTO.Product> GetProducts(int cartId);
 
     }
 }

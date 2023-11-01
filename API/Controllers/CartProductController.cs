@@ -1,83 +1,62 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Services.Interfaces;
+
+// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace API.Controllers
 {
-    public class CartProductController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class CartProductController : ControllerBase
     {
-        // GET: CartProductController
-        public ActionResult Index()
+        private readonly Services.Interfaces.ICartProductService service;
+        public CartProductController(ICartProductService bl)
         {
-            return View();
+            service = bl;
+        }
+        // GET: api/<CartProductController1>
+        //[HttpGet]
+        //public IEnumerable<string> Get()
+        //{
+        //    return new string[] { "value1", "value2" };
+        //}
+
+        [HttpGet("{cartId}")]
+        public IEnumerable<DTO.CartProduct> Get(int cartId)
+        {
+            IEnumerable<DTO.CartProduct> data = service.Get(cartId);
+            return data;
         }
 
-        // GET: CartProductController/Details/5
-        public ActionResult Details(int id)
+        [HttpGet("getproducts/{cartId}")]
+        public IEnumerable<DTO.Product> GetProducts(int cartId)
         {
-            return View();
+            IEnumerable<DTO.Product> data = service.GetProducts(cartId);
+            return data;
         }
+        // GET api/<CartProductController1>/5
+        //[HttpGet("{id}")]
+        //public string Get(int id)
+        //{
+        //    return "value";
+        //}
 
-        // GET: CartProductController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+        //// POST api/<CartProductController1>
+        //[HttpPost]
+        //public void Post([FromBody] string value)
+        //{
+        //}
 
-        // POST: CartProductController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //// PUT api/<CartProductController1>/5
+        //[HttpPut("{id}")]
+        //public void Put(int id, [FromBody] string value)
+        //{
+        //}
 
-        // GET: CartProductController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: CartProductController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: CartProductController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: CartProductController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //// DELETE api/<CartProductController1>/5
+        //[HttpDelete("{id}")]
+        //public void Delete(int id)
+        //{
+        //}
     }
 }

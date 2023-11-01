@@ -24,12 +24,12 @@ namespace API.Controllers
         //    return new string[] { "value1", "value2" };
         //}
 
-        // GET api/<CartCartoller>/5
-        //[HttpGet("{id}")]
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
+        //GET api/<CartCartoller>/5
+        [HttpGet("{cartid}")]
+        public int GetTotalPrice(int cartid)
+        {
+            return service.GetTotalPrice(cartid);
+        }
 
         //addtoCart
         //PUT api/<CartController>/5
