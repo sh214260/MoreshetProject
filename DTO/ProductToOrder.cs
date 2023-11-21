@@ -8,8 +8,9 @@ namespace DTO
 {
     public class ProductToOrder
     {
-        public string Type { get; set; }
-        public DateTime from { get; set; }  
-        public DateTime to { get; set; }
+        public int UserId { get; set; }
+        public int ProductId { get; set; }
+        public DateTime From { get; set; }  
+        public DateTime To { get; set; }
     }
 }

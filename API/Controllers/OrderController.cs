@@ -29,23 +29,23 @@ namespace API.Controllers
         }
 
         // POST api/<OrderController>
-        [HttpPost]
-        public void Post([FromBody] DTO.Order order)
+        [HttpPost("addorder")]
+        public bool Post([FromBody] DTO.Order order)
         {
-            service.AddNew(order);
+           return service.AddNew(order);
         }
 
         // PUT api/<OrderController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] DTO.Order order)
-        {
-        }
+        //[HttpPut("{id}")]
+        //public void Put(int id, [FromBody] DTO.Order order)
+        //{
+        //}
 
-        // DELETE api/<OrderController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-            service.Delete(id);
-        }
+        //// DELETE api/<OrderController>/5
+        //[HttpDelete("{id}")]
+        //public void Delete(int id)
+        //{
+        //    service.Delete(id);
+        //}
     }
 }

@@ -10,41 +10,38 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CartContoller : ControllerBase
+    public class CartController : ControllerBase
     {
         private readonly Services.Interfaces.ICartService service;
-        public CartContoller(ICartService bl)
+        public CartController(ICartService bl)
         {
             service = bl;
         }
-        // GET: api/<CartCartoller>
-        //[HttpGet]
-        //public IEnumerable<string> Get()
-        //{
-        //    return new string[] { "value1", "value2" };
-        //}
 
-        //GET api/<CartCartoller>/5
-        [HttpGet("{cartid}")]
-        public int GetTotalPrice(int cartid)
+        [HttpGet("getbyid/{id}")]
+        public DTO.Cart Get(int id)
         {
-            return service.GetTotalPrice(cartid);
+            return service.Get(id);
         }
-
         //addtoCart
         //PUT api/<CartController>/5
-        [HttpPut("{productid}")]
-        public DTO.Cart Put(int productid, [FromBody] DTO.User user )
+        //[HttpPut("{productid}")]
+        //public int Put(int productid)
+        //{
+        //    return service.AddToCart(1, productid);
+        //}
+        [HttpGet("productisavialible")] 
+        public int Get([FromQuery] ProductToOrder pro)
         {
-            return service.AddToCart(user.Id, productid);
-        }
-        // POST api/<CartCartoller>
-        [HttpGet("productisavialible")]
-        public bool ProductIsAvialible([FromQuery] ProductToOrder pro)
-        {
-            return service.ProductIsAvialible(pro.Type, pro.from, pro.to);
+            return service.ProductIsAvialible(pro.UserId,pro.ProductId, pro.From, pro.To);
         }
 
+        // GET api/<CartCartoller>
+        [HttpGet("gettotalprice/{cartid}")]
+        public double GetTotalPrice(int cartId)
+        {
+            return service.GetTotalPrice(cartId);
+        }
         // PUT api/<CartCartoller>/5
         //[HttpPut("{id}")]
         //public void Put(int id, [FromBody] string value)

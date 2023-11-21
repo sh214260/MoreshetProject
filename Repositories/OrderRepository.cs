@@ -1,4 +1,5 @@
-﻿using Repositories.Models;
+﻿using Repositories;
+using Repositories.Models;
 using Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,24 @@ namespace Repositories
             try
             {
                 context.Orders.Add(newOrder);
+                context.SaveChanges();
+                var productsId = (from cp in context.CartProducts
+                                  join c in context.Carts on cp.CartId equals c.Id
+                                  where c.Id == newOrder.CartId
+                                  select cp.ProductId).ToList();
+                foreach (var productId in productsId)
+                {
+                    Models.ItemsForOrder itemForOrder = new Models.ItemsForOrder()
+                    {
+                        //Id = 0,
+                        OrderId = newOrder.Id,
+                        ProductId =productId
+                    };
+
+                    context.ItemsForOrders.Add(itemForOrder);
+                }
+                context.Carts.SingleOrDefault(c => c.Id == newOrder.CartId).IsOpen=false;
+                
                 context.SaveChanges();
                 return true;
             }

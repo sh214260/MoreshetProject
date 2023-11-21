@@ -10,6 +10,6 @@ namespace Repositories.Interfaces
     {
         public IEnumerable<Models.CartProduct> Get(int cartId);
         public IEnumerable<Models.Product> GetProducts(int cartId);
-
+        public bool Delete(int cartId, int productId);
     }
 }

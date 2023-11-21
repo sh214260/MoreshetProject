@@ -8,9 +8,13 @@ namespace Repositories.Interfaces
 {
     public interface ICartRepository
     {
-        public Models.Cart AddToCart(int userId, int productId);
-        public bool ProductIsAvialible(string type, DateTime from, DateTime to);
-        public int GetTotalPrice(int cartId);
+        public Models.Cart Get(int id);
+
+        //public int AddToCart(int userId, int productId);
+        public int ProductIsAvialible(int userId,int productId, DateTime from, DateTime to);
+        public bool Delete(int id);
+        public double GetTotalPrice(int cartId);
+
 
     }
 }

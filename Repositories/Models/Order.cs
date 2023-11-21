@@ -17,11 +17,15 @@ public partial class Order
 
     public DateTime ToDate { get; set; }
 
-    public bool PaidUp { get; set; }
+    public bool? PaidUp { get; set; }
 
-    public bool Receipt { get; set; }
+    public bool? Receipt { get; set; }
 
     public int TotalPrice { get; set; }
+
+    public int? CartId { get; set; }
+
+    public virtual Cart? Cart { get; set; }
 
     public virtual ICollection<ItemsForOrder> ItemsForOrders { get; set; } = new List<ItemsForOrder>();
 

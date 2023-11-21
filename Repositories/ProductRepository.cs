@@ -33,9 +33,6 @@ namespace Repositories
                 return false;
             }
         }
-        
-
-
         public void Delete(int productId)
         {
             try

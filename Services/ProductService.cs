@@ -67,7 +67,12 @@ namespace Services
             IEnumerable<DTO.Product> products = ModelsProducts.Select(pr => mapper.Map<Repositories.Models.Product, DTO.Product>(pr));
             return products;
         }
+        IEnumerable<DTO.Product> GetAvailable(DateTime from, DateTime to)
+        {
+            IEnumerable<Repositories.Models.Product> ModelsProducts = repository.GetAvailable(from, to);
+            IEnumerable<DTO.Product> products = ModelsProducts.Select(pr => mapper.Map<Repositories.Models.Product, DTO.Product>(pr));
+            return products;
+        }
 
-        
     }
 }

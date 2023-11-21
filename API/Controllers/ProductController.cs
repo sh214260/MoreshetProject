@@ -34,6 +34,13 @@ namespace API.Controllers
         {
             return service.Get(id);
         }
+        [HttpGet("getavailable")]
+        public IEnumerable<DTO.Product> GetAvailable(DateTime from, DateTime to)
+        {
+            IEnumerable<DTO.Product> data = service.GetAvailable(from, to);
+            HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+            return data;
+        }
 
         // POST api/<ProductController>
         [HttpPost("addproduct")]

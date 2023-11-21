@@ -31,5 +31,10 @@ namespace Services
             return products;
         }
 
+        public bool Delete(int cartId, int productId)
+        {
+            return repository.Delete(cartId, productId);
+        }
+
     }
 }

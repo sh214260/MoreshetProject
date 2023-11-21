@@ -23,8 +23,8 @@ namespace Services
         {
             if (newOrder != null)
             {
-                repository.AddNew(mapper.Map<Repositories.Models.Order>(newOrder));
-                return true;
+               return repository.AddNew(mapper.Map<Repositories.Models.Order>(newOrder));
+                 
             }
             return false;
         }

@@ -25,6 +25,7 @@ namespace DTO
         public bool? Receipt { get; set; }
 
         public int TotalPrice { get; set; }
+        public int? CartId { get; set; }
 
     }
 }

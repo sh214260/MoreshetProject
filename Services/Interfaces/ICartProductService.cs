@@ -10,6 +10,6 @@ namespace Services.Interfaces
     {
         public IEnumerable<DTO.CartProduct> Get(int cartId);
         public IEnumerable<DTO.Product> GetProducts(int cartId);
-
+        public bool Delete(int cartId, int productId);
     }
 }

@@ -41,11 +41,12 @@ namespace API.Controllers
         //    return "value";
         //}
 
-        //// POST api/<CartProductController1>
-        //[HttpPost]
-        //public void Post([FromBody] string value)
-        //{
-        //}
+        // POST api/<CartProductController1>
+        [HttpPost("delete/{cartId}/{productId}")]
+        public bool Post(int cartId, int productId)
+        {
+            return service.Delete(cartId, productId);
+        }
 
         //// PUT api/<CartProductController1>/5
         //[HttpPut("{id}")]

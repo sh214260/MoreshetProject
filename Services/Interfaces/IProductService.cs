@@ -14,5 +14,6 @@ namespace Services.Interfaces
         public void Delete(int productId);
         public DTO.Product Get(int id); 
         public IEnumerable<DTO.Product> Get(Func<Repositories.Models.Product, bool>? predicate = null);
+        IEnumerable<Product> GetAvailable();
     }
 }

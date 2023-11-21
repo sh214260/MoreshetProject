@@ -49,8 +49,6 @@ public partial class FullStackMoreshetdbContext : DbContext
         {
             entity.ToTable("CartProduct");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
-
             entity.HasOne(d => d.Cart).WithMany(p => p.CartProducts)
                 .HasForeignKey(d => d.CartId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -88,6 +86,10 @@ public partial class FullStackMoreshetdbContext : DbContext
         {
             entity.ToTable("Order");
 
+            entity.HasOne(d => d.Cart).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.CartId)
+                .HasConstraintName("FK_Order_Cart");
+
             entity.HasOne(d => d.User).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -101,11 +103,6 @@ public partial class FullStackMoreshetdbContext : DbContext
             entity.Property(e => e.Description).HasMaxLength(100);
             entity.Property(e => e.Name).HasMaxLength(20);
             entity.Property(e => e.Type).HasMaxLength(10);
-
-            entity.HasOne(d => d.Category).WithMany(p => p.Products)
-                .HasForeignKey(d => d.CategoryId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Product_Category");
         });
 
         modelBuilder.Entity<User>(entity =>

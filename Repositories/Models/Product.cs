@@ -17,9 +17,9 @@ public partial class Product
 
     public string? Type { get; set; }
 
-    public virtual ICollection<CartProduct> CartProducts { get; set; } = new List<CartProduct>();
+    public bool? Weight { get; set; }
 
-    public virtual Category Category { get; set; } = null!;
+    public virtual ICollection<CartProduct> CartProducts { get; set; } = new List<CartProduct>();
 
     public virtual ICollection<ItemsForOrder> ItemsForOrders { get; set; } = new List<ItemsForOrder>();
 }

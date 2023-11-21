@@ -22,14 +22,44 @@ namespace Repositories
         }
         public IEnumerable<Models.Product> GetProducts(int cartId)
         {
-            var query = from c in context.Carts
-                        join cp in context.CartProducts on c.Id equals cp.CartId
-                        join p in context.Products on cp.ProductId equals p.Id
-                        select new
-                        { cp.ProductId };
-            var results = query.ToList();
-            var filteredProducts = context.Products.Where(p => results.Any(r => r.ProductId == p.Id));
+            var filteredProducts = context.Products
+                .Join(
+                    context.CartProducts,
+                    p => p.Id,
+                    cp => cp.ProductId,
+                    (p, cp) => new { Product = p, CartId = cp.CartId }
+                )
+                .Where(x => x.CartId == cartId)
+                .Select(x => x.Product)
+                .ToList();
+
             return filteredProducts;
         }
+        public bool Delete(int cartId, int productId)
+        {
+            if (cartId < 0)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+            else
+            {
+                var cart = context.Carts.FirstOrDefault(c => c.Id == cartId);
+                if (cart != null)
+                {
+                    var cartProduct = context.CartProducts.FirstOrDefault
+                        (cp => cp.CartId == cartId && cp.ProductId == productId);
+                    if (cartProduct != null)
+                    {
+                        context.CartProducts.Remove(cartProduct);
+                        cart.TotalPrice -= context.Products.First(p => p.Id == productId).Price;
+                        context.SaveChanges();
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+
+
     }
 }
