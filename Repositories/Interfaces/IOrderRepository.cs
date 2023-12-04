@@ -9,7 +9,7 @@ namespace Repositories.Interfaces
 {
     public interface IOrderRepository
     {
-        bool AddNew(Models.Order newOrder);
+        public int AddNew(Models.Order newOrder);
         public Models.Order Get(int orderId);
         public void Delete(int orderId);
         public IEnumerable<Models.Order> Get(Func<Models.Order, bool>? predicate = null);

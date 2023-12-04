@@ -18,7 +18,7 @@ namespace Repositories
             this.context = dal;
         }
 
-        public bool AddNew(Models.Order newOrder)
+        public int AddNew(Models.Order newOrder)
         {
             try
             {
@@ -32,21 +32,20 @@ namespace Repositories
                 {
                     Models.ItemsForOrder itemForOrder = new Models.ItemsForOrder()
                     {
-                        //Id = 0,
                         OrderId = newOrder.Id,
-                        ProductId =productId
+                        ProductId = productId
                     };
 
                     context.ItemsForOrders.Add(itemForOrder);
                 }
-                context.Carts.SingleOrDefault(c => c.Id == newOrder.CartId).IsOpen=false;
-                
+                context.Carts.SingleOrDefault(c => c.Id == newOrder.CartId).IsOpen = false;
+
                 context.SaveChanges();
-                return true;
+                return context.Orders.First(order => order.Id == newOrder.Id).Id;
             }
             catch
             {
-                return false;
+                return -1;
             }
         }
 

@@ -110,7 +110,9 @@ public partial class FullStackMoreshetdbContext : DbContext
             entity.ToTable("User");
 
             entity.Property(e => e.Address).HasMaxLength(50);
-            entity.Property(e => e.Email).HasMaxLength(50);
+            entity.Property(e => e.Email)
+                .HasMaxLength(50)
+                .IsFixedLength();
             entity.Property(e => e.Name).HasMaxLength(50);
             entity.Property(e => e.Password)
                 .HasMaxLength(10)

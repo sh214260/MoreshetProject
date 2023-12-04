@@ -4,6 +4,7 @@ using Repositories.Models;
 using Services.Interfaces;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Cors;
+//using System.Web.Http;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,9 +15,16 @@ namespace API.Controllers
     public class UserController : ControllerBase
     {
         private readonly Services.Interfaces.IUserService service;
-        public UserController(IUserService bl)
+        private readonly Services.Interfaces.ICartService cartservice;
+
+        private readonly Services.Interfaces.ICartProductService cartProductservice;
+
+        public UserController(IUserService bl, ICartService cartservice, ICartProductService cartProductservice)
         { 
             service = bl;
+            this.cartservice= cartservice;
+            this.cartProductservice = cartProductservice;
+
         }
 
         // GET: api/<User>
@@ -38,39 +46,67 @@ namespace API.Controllers
 
         // GET api/<User>/5
         [HttpPost("signin")]
-        public DTO.User Singin([FromBody] Login login)
+        public DTO.LoginResponse Singin([FromBody] Login login)
         {
-            DTO.User data = service.GetUser(login.email, login.password);
+            DTO.User user = service.GetUser(login.email, login.password);
+            if (user == null)
+            {
+                throw new System.Web.Http.HttpResponseException(System.Net.HttpStatusCode.Unauthorized);
+            }
+            DTO.Cart cart = cartservice.GetByUser(user.Id);
+            if (cart == null)
+            {
+                throw new System.Web.Http.HttpResponseException(System.Net.HttpStatusCode.Unauthorized);
+            }
+            IEnumerable<DTO.Product> cartProducts=cartProductservice.GetProducts(cart.Id);
+            if(cartProducts == null)
+            {
+                LoginResponse respo = new LoginResponse()
+                {
+                    User = user,
+                    Cart = cart,
+                    CartProducts = null,
+                };
+                return respo;
+            }
+            LoginResponse response = new LoginResponse()
+            {
+                User = user,
+                Cart = cart,
+                CartProducts = cartProducts
+
+            };
             HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
-            return data;
+            return response;
         }
 
 
         // POST api/<User>
-        [HttpPost("signup")]
+        [HttpPost("signup/{password}")]
         //[EnableCors("AllowAllOrigins")]
-        public bool Post([FromBody] DTO.User user)
+        public bool SignUp(string password,[FromBody] DTO.User user)
         {
-            bool data = service.AddNew(user);
+            bool data = service.AddNew(password,user);
             HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
             return data;
             
         }
+        [HttpPost("updateuser")]
+        //[EnableCors("AllowAllOrigins")]
+        public bool UpdateUser([FromBody] DTO.User user)
+        {
+            bool data = service.UpdateUser(user);
+            HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+            return data;
 
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] DTO.User user)
-        //{
-            
-        //}
-
+        }
+        
         // DELETE api/<User>/5
         [HttpDelete("{userId}")]
         public void Delete(int userId)
         {
             service.Delete(userId);
-            HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
-           
-            
+            HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");           
         }
     }
 }

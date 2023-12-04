@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace Services.Interfaces
 {
-    public  interface  IUserService
+    public interface IUserService
     {
-        bool AddNew(DTO.User newUser);
+        bool AddNew(string password, DTO.User newUser);
         public DTO.User Get(int id);
         public void Delete(int userId);
         public IEnumerable<DTO.User> Get(Func<Repositories.Models.User, bool>? predicate = null);
         public DTO.User GetUser(string email, string password);
+        public bool UpdateAddress(int userId, string adress);
+        public bool UpdateUser (DTO.User newUser);
     }
 }

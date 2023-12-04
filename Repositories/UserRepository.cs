@@ -1,11 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore.Internal;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Repositories.Interfaces;
 using Repositories.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Repositories
 {
@@ -17,7 +20,7 @@ namespace Repositories
             this.context = dal;
         }
 
-        public bool AddNew(User newUser)
+        public bool AddNew(string password,User newUser)
         {
             if (newUser == null)
             {
@@ -30,6 +33,7 @@ namespace Repositories
                 {
                     return false;
                 }
+                newUser.Password=password;
                 context.Users.Add(newUser);
                 context.SaveChanges();
                 return true;
@@ -90,6 +94,31 @@ namespace Repositories
             return null;
             
         }
+       
+        public bool UpdateAddress(int userId, string address)
+        {
+            var user = context.Users.FirstOrDefault(u => u.Id == userId);
 
+            if (user != null)
+            {
+                user.Address = address;
+                context.Entry(user).Property(u => u.Address).IsModified = true;
+                context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+        public bool UpdateUser(Models.User newUser)
+        {
+            var user = context.Users.FirstOrDefault(u => u.Id == newUser.Id);
+
+            if (user != null)
+            {
+                context.Users.Update(newUser);
+                context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
     }
 }

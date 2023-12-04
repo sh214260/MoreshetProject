@@ -34,7 +34,7 @@ namespace API.Controllers
         {
             return service.Get(id);
         }
-        [HttpGet("getavailable")]
+        [HttpGet("getavailable/{from}/{to}")]
         public IEnumerable<DTO.Product> GetAvailable(DateTime from, DateTime to)
         {
             IEnumerable<DTO.Product> data = service.GetAvailable(from, to);

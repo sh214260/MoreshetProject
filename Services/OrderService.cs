@@ -19,14 +19,14 @@ namespace Services
             mapper = _mapper;
             repository = dal;
         }
-        public bool AddNew(DTO.Order newOrder)
+        public int AddNew(DTO.Order newOrder)
         {
             if (newOrder != null)
             {
                return repository.AddNew(mapper.Map<Repositories.Models.Order>(newOrder));
                  
             }
-            return false;
+            return -1;
         }
 
         public void Delete(int orderId)

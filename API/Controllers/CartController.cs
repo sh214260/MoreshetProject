@@ -22,20 +22,34 @@ namespace API.Controllers
         public DTO.Cart Get(int id)
         {
             return service.Get(id);
-        }
-        //addtoCart
-        //PUT api/<CartController>/5
-        //[HttpPut("{productid}")]
-        //public int Put(int productid)
-        //{
-        //    return service.AddToCart(1, productid);
-        //}
+        }      
+
         [HttpGet("productisavialible")] 
         public int Get([FromQuery] ProductToOrder pro)
         {
-            return service.ProductIsAvialible(pro.UserId,pro.ProductId, pro.From, pro.To);
+            List<int> productIds= service.ProductIsAvialible(pro.ProductType, pro.From, pro.To);
+            if (productIds.Count()==0)
+            {
+                //המוצר תפוס
+                return 0;
+            } 
+            foreach (int productId in productIds)
+            {
+                int id = service.AddToCart(pro.UserId, productId, pro.From, pro.To);
+                if (id != -1)
+                {
+                    return id;
+                }
+            }
+            //קיים מוצר כזה בעגלה
+            return -1;        
         }
-
+        [HttpPost("updatedate")]
+        //[EnableCors("AllowAllOrigins")]
+        public bool Post(int cartId, DateTime from, DateTime to)
+        {
+            return service.UpdateDate(cartId,from, to);
+        }
         // GET api/<CartCartoller>
         [HttpGet("gettotalprice/{cartid}")]
         public double GetTotalPrice(int cartId)

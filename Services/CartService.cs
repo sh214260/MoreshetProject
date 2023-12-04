@@ -27,17 +27,35 @@ namespace Services
             cart = mapper.Map<DTO.Cart>(repository.Get(id));
             return cart;
         }
-        public int ProductIsAvialible(int userId,int productId, DateTime from, DateTime to)
+        public DTO.Cart GetByUser(int id)
+        {
+            if (id < 0)
+            {
+                throw new EntityNotFoundExceptions();
+            }
+            DTO.Cart cart;
+            cart = mapper.Map<DTO.Cart>(repository.GetByUser(id));
+            return cart;
+        }
+        public List<int> ProductIsAvialible(string productType, DateTime from, DateTime to)
         {
             
-            return repository.ProductIsAvialible(userId, productId, from, to); 
+            return repository.ProductIsAvialible(productType, from, to); 
         }
         //public int AddToCart(int userId, int productId)
         //{
-            
+
         //    return repository.AddToCart(userId,productId);
         //}
-        
+        public int AddToCart(int userId, int productId, DateTime from, DateTime to)
+        {
+            return repository.AddToCart(userId, productId, from,to);
+        }
+
+        public bool UpdateDate(int cartId, DateTime from, DateTime to)
+        {
+            return repository.UpdateDate(cartId, from, to);
+        }
         public bool Delete(int id)
         {
             
@@ -47,5 +65,6 @@ namespace Services
         {
            return repository.GetTotalPrice(cartId);
         }
+        
     }
 }

@@ -30,7 +30,7 @@ namespace API.Controllers
 
         // POST api/<OrderController>
         [HttpPost("addorder")]
-        public bool Post([FromBody] DTO.Order order)
+        public int Post([FromBody] DTO.Order order)
         {
            return service.AddNew(order);
         }

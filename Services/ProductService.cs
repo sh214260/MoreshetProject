@@ -8,11 +8,11 @@ using AutoMapper;
 using Repositories.Models;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using DTO;
-
+using Services.Interfaces;
 
 namespace Services
 {
-    public class ProductService: Interfaces.IProductService
+    public class ProductService:IProductService
     {
         private readonly IMapper mapper;
         private readonly Repositories.Interfaces.IProductRpository repository;
@@ -31,8 +31,6 @@ namespace Services
             }
             return false;
         }
-
-
         public void Delete(int productId)
         {
             try
@@ -67,12 +65,10 @@ namespace Services
             IEnumerable<DTO.Product> products = ModelsProducts.Select(pr => mapper.Map<Repositories.Models.Product, DTO.Product>(pr));
             return products;
         }
-        IEnumerable<DTO.Product> GetAvailable(DateTime from, DateTime to)
-        {
+        IEnumerable<DTO.Product> IProductService.GetAvailable(DateTime from, DateTime to)        {
             IEnumerable<Repositories.Models.Product> ModelsProducts = repository.GetAvailable(from, to);
             IEnumerable<DTO.Product> products = ModelsProducts.Select(pr => mapper.Map<Repositories.Models.Product, DTO.Product>(pr));
             return products;
         }
-
     }
 }

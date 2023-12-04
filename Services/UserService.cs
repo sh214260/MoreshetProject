@@ -22,11 +22,11 @@ namespace Services
             mapper = _mapper;
             repository = dal;
         }
-        public bool AddNew(DTO.User newUser)
+        public bool AddNew(string password, DTO.User newUser)
         {
             if (newUser != null)
             {               
-                return repository.AddNew(mapper.Map<Repositories.Models.User>(newUser));
+                return repository.AddNew(password,mapper.Map<Repositories.Models.User>(newUser));
             }
             return false;
         }
@@ -91,6 +91,15 @@ namespace Services
             user = mapper.Map<DTO.User>(user1);
             return user;
             
+        }
+        public bool UpdateAddress(int userId, string address)
+        {
+            return repository.UpdateAddress(userId, address);
+        }
+
+        public bool UpdateUser(DTO.User newUser)
+        {
+            return repository.UpdateUser(mapper.Map<Repositories.Models.User>(newUser));
         }
     }
 }
