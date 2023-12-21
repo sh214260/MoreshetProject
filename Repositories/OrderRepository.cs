@@ -77,6 +77,10 @@ namespace Repositories
             }
             return context.Orders.Where(predicate);
         }
+        public IEnumerable<Models.Order> GetByUser(int userId)
+        {
+            return context.Orders.Where(order => order.UserId == userId);
+        }
 
         public Order Get(int orderId)
         {

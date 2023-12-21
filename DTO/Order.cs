@@ -12,7 +12,7 @@ namespace DTO
 
         public int UserId { get; set; }
 
-        public bool IsDelivery { get; set; }
+        public int DeliveryPrice { get; set; }
 
         public DateTime DateOrder { get; set; }
 

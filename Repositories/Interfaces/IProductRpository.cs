@@ -13,6 +13,6 @@ namespace Repositories.Interfaces
         public void Delete(int productId);
         public Models.Product Get(int id);
         public IEnumerable<Models.Product> Get(Func<Models.Product, bool>? predicate = null);
-        IEnumerable<Product> GetAvailable(DateTime from, DateTime to);
+        public List<Product> GetAvailable(DateTime from, DateTime to);
     }
 }

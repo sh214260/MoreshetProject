@@ -22,8 +22,7 @@ namespace DTO
         public string? PhoneNumber2 { get; set; }
 
         public int? Type { get; set; }
-
-       
+ 
     }
 
 }

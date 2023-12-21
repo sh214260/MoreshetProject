@@ -1,10 +1,5 @@
 ﻿using Repositories.Interfaces;
 using Repositories.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Repositories
 {
@@ -14,11 +9,6 @@ namespace Repositories
         public CartProductRepository(FullStackMoreshetdbContext dal)
         {
             this.context = dal;
-        }
-
-        public IEnumerable<Models.CartProduct> Get(int cartId)
-        {
-            return context.CartProducts.Where(ca=>ca.CartId==cartId).ToList();
         }
         public IEnumerable<Models.Product> GetProducts(int cartId)
         {
@@ -59,7 +49,10 @@ namespace Repositories
                 return false;
             }
         }
-
+        public IEnumerable<Models.CartProduct> Get(int cartId)
+        {
+            return context.CartProducts.Where(ca => ca.CartId == cartId).ToList();
+        }
 
     }
 }

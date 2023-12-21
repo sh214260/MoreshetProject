@@ -16,7 +16,6 @@ namespace API.Controllers
     {
         private readonly Services.Interfaces.IUserService service;
         private readonly Services.Interfaces.ICartService cartservice;
-
         private readonly Services.Interfaces.ICartProductService cartProductservice;
 
         public UserController(IUserService bl, ICartService cartservice, ICartProductService cartProductservice)
@@ -58,8 +57,8 @@ namespace API.Controllers
             {
                 throw new System.Web.Http.HttpResponseException(System.Net.HttpStatusCode.Unauthorized);
             }
-            IEnumerable<DTO.Product> cartProducts=cartProductservice.GetProducts(cart.Id);
-            if(cartProducts == null)
+            IEnumerable<DTO.Product> cartProducts = cartProductservice.GetProducts(cart.Id);
+            if (cartProducts == null)
             {
                 LoginResponse respo = new LoginResponse()
                 {

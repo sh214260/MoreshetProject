@@ -35,9 +35,9 @@ namespace API.Controllers
             return service.Get(id);
         }
         [HttpGet("getavailable/{from}/{to}")]
-        public IEnumerable<DTO.Product> GetAvailable(DateTime from, DateTime to)
+        public List<DTO.Product> GetAvailable(DateTime from, DateTime to)
         {
-            IEnumerable<DTO.Product> data = service.GetAvailable(from, to);
+            List<DTO.Product> data = service.GetAvailable(from, to);
             HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
             return data;
         }

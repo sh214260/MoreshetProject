@@ -20,6 +20,12 @@ namespace API.Controllers
         {
              return service.Get();
         }
+        // GET: api/<OrderController>
+        [HttpGet("getbyuser/{userId}")]
+        public IEnumerable<DTO.Order> GetByUser(int userId)
+        {
+            return service.GetByUser(userId);
+        }
 
         // GET api/<OrderController>/5
         [HttpGet("{id}")]

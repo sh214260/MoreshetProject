@@ -101,6 +101,7 @@ public partial class FullStackMoreshetdbContext : DbContext
             entity.ToTable("Product");
 
             entity.Property(e => e.Description).HasMaxLength(100);
+            entity.Property(e => e.Image).HasMaxLength(20);
             entity.Property(e => e.Name).HasMaxLength(20);
             entity.Property(e => e.Type).HasMaxLength(10);
         });

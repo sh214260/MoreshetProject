@@ -73,16 +73,18 @@ namespace Repositories
             }
             return context.Products.Where(predicate);
         }
-        public IEnumerable<Models.Product> GetAvailable(DateTime from, DateTime to)
+        public List<Models.Product> GetAvailable(DateTime fromDate, DateTime to)
         {
-            var query = from o in context.Orders
-                        join i in context.ItemsForOrders on o.Id equals i.OrderId
-                        join p in context.Products on i.ProductId equals p.Id
-                        select new { Product = p, FromDate = o.FromDate, ToDate = o.ToDate };
-
-            var results = query.ToList();
-            return results.Where(res => res.FromDate <= from && res.ToDate >= to).Select(res => res.Product);
+            List<Product> results = new List<Product>();
+            var query1 = from o in context.Orders
+                         join i in context.ItemsForOrders on o.Id equals i.OrderId
+                         join p in context.Products on i.ProductId equals p.Id
+                         where o.FromDate<=fromDate && o.ToDate>=to
+                         select p;
+            List<Product> productsNotInOrders = context.Products
+                .Where(pro => !query1.Contains(pro)).ToList();
+            results.AddRange(productsNotInOrders);
+            return results;
         }
-
     }
 }

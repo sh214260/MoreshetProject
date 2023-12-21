@@ -85,7 +85,7 @@ namespace Repositories
                 newCart.ToDate= to;
                 context.Carts.Add(newCart);
                 context.SaveChanges();
-                existingCart = newCart; // Assign the newCart object to existingCart
+                existingCart = newCart;
             }
 
             if (!context.CartProducts.Where(cp => cp.CartId == existingCart.Id)
@@ -115,47 +115,14 @@ namespace Repositories
 
             if (cart != null)
             {
+                context.CartProducts.RemoveRange(cart.CartProducts);
                 cart.FromDate = from;
-                cart.ToDate=to;
-                context.Entry(cart).Property(c => c.FromDate).IsModified = true;
-                context.Entry(cart).Property(c => c.ToDate).IsModified = true;
+                cart.ToDate = to;      
                 context.SaveChanges();
                 return true;
             }
             return false;
         }
-
-        //public int AddToCart(int userId, int productId)
-        //{
-        //    Models.Cart? existingCart = context.Carts.FirstOrDefault(cart => cart.UserId == userId && cart.IsOpen == true);
-
-        //    if (existingCart == null)
-        //    {
-        //        Models.Cart newCart = new Cart();
-        //        newCart.UserId = userId;
-        //        newCart.IsOpen = true;
-        //        context.Carts.Add(newCart);
-        //        context.SaveChanges();
-        //        existingCart = newCart; // Assign the newCart object to existingCart
-        //    }
-
-        //    if (!context.CartProducts.Where(cp => cp.CartId == existingCart.Id)
-        //        .Any(cp => cp.ProductId == productId))
-        //    {
-        //        Models.CartProduct cartProduct = new Models.CartProduct()
-        //        {
-        //            ProductId = productId
-        //        };
-        //        existingCart.CartProducts.Add(cartProduct);
-        //        existingCart.TotalPrice += context.Products.First(p => p.Id == productId).Price;
-        //        context.SaveChanges();
-        //        return existingCart.Id;
-        //    }
-        //    else
-        //    {
-        //        return -1;
-        //    }     
-        //}
         public bool Delete(int id)
         {
             return true;

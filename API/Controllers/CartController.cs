@@ -44,18 +44,17 @@ namespace API.Controllers
             //קיים מוצר כזה בעגלה
             return -1;        
         }
-        [HttpPost("updatedate")]
-        //[EnableCors("AllowAllOrigins")]
+        [HttpPost("updatedate/{cartId}/{from}/{to}")]
         public bool Post(int cartId, DateTime from, DateTime to)
         {
             return service.UpdateDate(cartId,from, to);
         }
-        // GET api/<CartCartoller>
-        [HttpGet("gettotalprice/{cartid}")]
-        public double GetTotalPrice(int cartId)
-        {
-            return service.GetTotalPrice(cartId);
-        }
+        //// GET api/<CartCartoller>
+        //[HttpGet("gettotalprice/{cartid}")]
+        //public double GetTotalPrice(int cartId)
+        //{
+        //    return service.GetTotalPrice(cartId);
+        //}
         // PUT api/<CartCartoller>/5
         //[HttpPut("{id}")]
         //public void Put(int id, [FromBody] string value)

@@ -80,7 +80,21 @@ namespace Services
             return orders;
             
         }
+        public IEnumerable<DTO.Order> GetByUser(int userId)
+        {
+            IEnumerable<Repositories.Models.Order> ModelsOrder = repository.GetByUser(userId);
+            if (ModelsOrder == null)
+            {
+                return null;
+            }
+            IEnumerable<DTO.Order> orders = ModelsOrder.Select(pr => mapper.Map<Repositories.Models.Order, DTO.Order>(pr));
+            if (orders == null)
+            {
+                return null;
+            }
+            return orders;
+        }
 
-        
+
     }
 }

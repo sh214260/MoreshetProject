@@ -31,23 +31,6 @@ namespace Services
             }
             return false;
         }
-        public void Delete(int productId)
-        {
-            try
-            {
-                if (productId < 0)
-                {
-                    throw new EntityNotFoundExceptions();
-                }
-                repository.Delete(productId);
-                
-            }
-            catch
-            {
-                
-            }
-        }
-
         public DTO.Product Get(int id)
         {
             if (id < 0)
@@ -65,10 +48,27 @@ namespace Services
             IEnumerable<DTO.Product> products = ModelsProducts.Select(pr => mapper.Map<Repositories.Models.Product, DTO.Product>(pr));
             return products;
         }
-        IEnumerable<DTO.Product> IProductService.GetAvailable(DateTime from, DateTime to)        {
-            IEnumerable<Repositories.Models.Product> ModelsProducts = repository.GetAvailable(from, to);
-            IEnumerable<DTO.Product> products = ModelsProducts.Select(pr => mapper.Map<Repositories.Models.Product, DTO.Product>(pr));
+        public List<DTO.Product> GetAvailable(DateTime from, DateTime to)        {
+            List<Repositories.Models.Product> ModelsProducts = repository.GetAvailable(from, to);
+            List<DTO.Product> products = ModelsProducts.Select(pr => mapper.Map<Repositories.Models.Product, DTO.Product>(pr)).ToList();
             return products;
         }
+        public void Delete(int productId)
+        {
+            try
+            {
+                if (productId < 0)
+                {
+                    throw new EntityNotFoundExceptions();
+                }
+                repository.Delete(productId);
+
+            }
+            catch
+            {
+
+            }
+        }
+
     }
 }

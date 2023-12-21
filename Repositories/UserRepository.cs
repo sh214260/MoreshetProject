@@ -114,7 +114,12 @@ namespace Repositories
 
             if (user != null)
             {
-                context.Users.Update(newUser);
+                //context.Users.Update(newUser);
+                user.Email= newUser.Email;
+                user.Address= newUser.Address;
+                user.PhoneNumber1= newUser.PhoneNumber1;
+                user.PhoneNumber2= newUser.PhoneNumber2;
+                user.Name= newUser.Name;
                 context.SaveChanges();
                 return true;
             }
