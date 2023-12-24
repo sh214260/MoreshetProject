@@ -86,5 +86,11 @@ namespace Repositories
             results.AddRange(productsNotInOrders);
             return results;
         }
+
+        public IEnumerable<string> GetImages()
+        {
+            IEnumerable<string> images = context.Products.Select(p => p.Image);
+            return images;
+        }
     }
 }

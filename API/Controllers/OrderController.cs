@@ -40,6 +40,11 @@ namespace API.Controllers
         {
            return service.AddNew(order);
         }
+        [HttpGet("getdeliveryprice/{cartId}")]
+        public int GetDeliveryPrice(int cartId)
+        {
+            return service.GetDeliveryPrice(cartId);
+        }
 
         // PUT api/<OrderController>/5
         //[HttpPut("{id}")]

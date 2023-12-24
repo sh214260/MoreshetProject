@@ -37,13 +37,20 @@ public partial class FullStackMoreshetdbContext : DbContext
     {
         modelBuilder.Entity<Cart>(entity =>
         {
+
             entity.ToTable("Cart");
 
             entity.HasOne(d => d.User).WithMany(p => p.Carts)
                 .HasForeignKey(d => d.UserId)
+                
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Cart_User");
         });
+        modelBuilder.Entity<Cart>()
+        .HasMany(c => c.CartProducts)
+        .WithOne(cp => cp.Cart)
+        .IsRequired()
+        .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<CartProduct>(entity =>
         {

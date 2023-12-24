@@ -14,5 +14,6 @@ namespace Repositories.Interfaces
         public Models.Product Get(int id);
         public IEnumerable<Models.Product> Get(Func<Models.Product, bool>? predicate = null);
         public List<Product> GetAvailable(DateTime from, DateTime to);
+        public IEnumerable<string> GetImages();
     }
 }

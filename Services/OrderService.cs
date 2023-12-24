@@ -95,6 +95,9 @@ namespace Services
             return orders;
         }
 
-
+        public int GetDeliveryPrice(int cartId)
+        {
+           return repository.GetDeliveryPrice(cartId);
+        }
     }
 }

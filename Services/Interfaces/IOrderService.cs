@@ -15,5 +15,6 @@ namespace Services.Interfaces
         public void Delete(int orderId);
         public IEnumerable<DTO.Order> Get(Func<Repositories.Models.Order, bool>? predicate = null);
         public IEnumerable<Order> GetByUser(int userId);
+        public int GetDeliveryPrice(int cartId);
     }
 }

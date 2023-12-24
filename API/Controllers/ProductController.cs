@@ -27,7 +27,12 @@ namespace API.Controllers
             HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
             return data;
         }
-
+        [HttpGet("getimages")]
+        public IEnumerable<string> GetImages()
+        {
+            IEnumerable<string> data = service.GetImages();
+            return data;
+        }
         // GET api/<ProductController>/5
         [HttpGet("getbyid/{id}")]
         public DTO.Product Get(int id)

@@ -86,5 +86,34 @@ namespace Repositories
         {
             return context.Orders.Find(orderId);
         }
+
+        public int GetDeliveryPrice(int cartId)
+        {
+            int totalDelivery = 0;
+            var products = context.Products
+                 .Join(
+                     context.CartProducts,
+                     p => p.Id,
+                     cp => cp.ProductId,
+                     (p, cp) => new { Product = p, CartId = cp.CartId }
+                 )
+                 .Where(x => x.CartId == cartId)
+                 .Select(x => x.Product)
+                 .ToList();
+            int productHeavy = products.Where(p => p.Weight == true).ToList().Count();
+            int productLight = products.Where(p => p.Weight == false).ToList().Count();
+            if (productHeavy > 0)
+            {
+                totalDelivery = 50 * productHeavy;
+                totalDelivery += 15 * productLight;
+                return totalDelivery;
+            }
+            else
+            {
+                totalDelivery = 15 * productLight + 20;
+                return totalDelivery;
+            }
+
+        }
     }
 }

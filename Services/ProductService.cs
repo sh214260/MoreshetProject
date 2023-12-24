@@ -70,5 +70,9 @@ namespace Services
             }
         }
 
+        public IEnumerable<string> GetImages()
+        {
+            return repository.GetImages();
+        }
     }
 }

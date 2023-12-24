@@ -1,4 +1,5 @@
-﻿using Repositories.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using Repositories.Interfaces;
 using Repositories.Models;
 using System;
 using System.Collections.Generic;
@@ -111,18 +112,22 @@ namespace Repositories
         }
         public bool UpdateDate(int cartId, DateTime from, DateTime to)
         {
-            var cart = context.Carts.FirstOrDefault(c => c.Id == cartId);
+            var cart = context.Carts.Include(c => c.CartProducts).FirstOrDefault(c => c.Id == cartId);
 
             if (cart != null)
             {
-                context.CartProducts.RemoveRange(cart.CartProducts);
+                //var prod = cart.CartProducts;
+                var prod = context.CartProducts.Where(cp => cp.CartId == cart.Id);
+                prod = null;
                 cart.FromDate = from;
-                cart.ToDate = to;      
+                cart.ToDate = to;
                 context.SaveChanges();
                 return true;
             }
+
             return false;
         }
+
         public bool Delete(int id)
         {
             return true;
