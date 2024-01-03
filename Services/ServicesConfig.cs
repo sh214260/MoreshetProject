@@ -24,6 +24,7 @@ namespace Services
             collection.AddScoped(typeof(Services.Interfaces.IProductService), typeof(Services.ProductService));
             collection.AddScoped(typeof(Services.Interfaces.ICartProductService), typeof(Services.CartProductService));
             collection.AddScoped(typeof(Services.Interfaces.ICartService), typeof(Services.CartService));
+            collection.AddScoped(typeof(Services.Interfaces.IEmailService), typeof(Services.EmailService));
 
             collection.AddDbContext<Repositories.Models.FullStackMoreshetdbContext>();
             var mapping = new MapperConfiguration(mc =>

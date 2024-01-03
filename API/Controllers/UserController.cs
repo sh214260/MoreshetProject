@@ -4,6 +4,10 @@ using Repositories.Models;
 using Services.Interfaces;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
 //using System.Web.Http;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -17,9 +21,10 @@ namespace API.Controllers
         private readonly Services.Interfaces.IUserService service;
         private readonly Services.Interfaces.ICartService cartservice;
         private readonly Services.Interfaces.ICartProductService cartProductservice;
-
-        public UserController(IUserService bl, ICartService cartservice, ICartProductService cartProductservice)
-        { 
+        private readonly IConfiguration configuration;
+        public UserController(IUserService bl, ICartService cartservice, ICartProductService cartProductservice, IConfiguration configuration)
+        {
+            this.configuration = configuration;
             service = bl;
             this.cartservice= cartservice;
             this.cartProductservice = cartProductservice;
@@ -68,12 +73,37 @@ namespace API.Controllers
                 };
                 return respo;
             }
+            //JWT
+            var issuer = configuration["Jwt:Issuer"];
+            var audience = configuration["Jwt:Audience"];
+            var key = Encoding.UTF8.GetBytes(configuration["Jwt:Key"]);
+            var signingCredentials = new SigningCredentials(
+                                    new SymmetricSecurityKey(key),
+                                    SecurityAlgorithms.HmacSha512Signature
+                                );
+            var subject = new ClaimsIdentity(new[]
+            {
+            new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+            new Claim(JwtRegisteredClaimNames.Email, user.Email),
+            });
+            var expires = DateTime.UtcNow.AddHours(1);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = subject,
+                Expires = expires,
+                Issuer = issuer,
+                Audience = audience,
+                SigningCredentials = signingCredentials
+            };
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var jwtToken = tokenHandler.WriteToken(token);
             LoginResponse response = new LoginResponse()
             {
                 User = user,
                 Cart = cart,
-                CartProducts = cartProducts
-
+                CartProducts = cartProducts,
+                Token = jwtToken
             };
             HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
             return response;

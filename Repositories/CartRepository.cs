@@ -48,29 +48,28 @@ namespace Repositories
             }
             return cart;
         }
-        public List<int> ProductIsAvialible(string productType, DateTime fromDate, DateTime to)
+        public List<int> ProductIsAvialible(int productId,string productType, DateTime fromDate, DateTime to)
         {
             List<int> results = new List<int>();
-            var query1 = from o in context.Orders
-                         join i in context.ItemsForOrders on o.Id equals i.OrderId
-                         join p in context.Products on i.ProductId equals p.Id
-                         where p.Type == productType
-                         select p.Id;
-            List<int> productsNotInOrders = context.Products.Where(p => p.Type == productType)
-                .Where(p => !query1.Contains(p.Id)).Select(p => p.Id).ToList();
-
             var query2 = from o in context.Orders
                          join i in context.ItemsForOrders on o.Id equals i.OrderId
                          join p in context.Products on i.ProductId equals p.Id
-                         
                          where p.Type == productType
-                         //why it is not working
-                         where (o.FromDate > to || o.ToDate < fromDate)
+                         where (o.FromDate == fromDate || o.ToDate == to)
                          select p.Id;
-            List<int> productsInOrderDate = query2.ToList();
-            results.AddRange(productsNotInOrders);
-            results.AddRange(productsInOrderDate);
+            List<int> productsTypeInOrder= query2.ToList();
+            if (productsTypeInOrder.Contains(productId)){
+                //נצטרך לחפש מוצר אחר
+                List<int> allproductstype = context.Products.Where(p => p.Type == productType).Select(p => p.Id).ToList();
+                allproductstype.RemoveAll(p => productsTypeInOrder.Contains(p));
+                results.AddRange(allproductstype);
+            }
+            else
+            {
+                results.Add(productId);
+            }
             return results;
+
         }
 
         public int AddToCart(int userId,int productId, DateTime from, DateTime to)
@@ -82,8 +81,8 @@ namespace Repositories
                 Models.Cart newCart = new Cart();
                 newCart.UserId = userId;
                 newCart.IsOpen = true;
-                newCart.FromDate= from;
-                newCart.ToDate= to;
+                newCart.FromDate = from;
+                newCart.ToDate = to;
                 context.Carts.Add(newCart);
                 context.SaveChanges();
                 existingCart = newCart;
@@ -118,9 +117,10 @@ namespace Repositories
             {
                 //var prod = cart.CartProducts;
                 var prod = context.CartProducts.Where(cp => cp.CartId == cart.Id);
-                prod = null;
+                context.CartProducts.RemoveRange(prod);
                 cart.FromDate = from;
                 cart.ToDate = to;
+                cart.TotalPrice = 0;
                 context.SaveChanges();
                 return true;
             }

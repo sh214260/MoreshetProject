@@ -37,10 +37,10 @@ namespace Services
             cart = mapper.Map<DTO.Cart>(repository.GetByUser(id));
             return cart;
         }
-        public List<int> ProductIsAvialible(string productType, DateTime from, DateTime to)
+        public List<int> ProductIsAvialible(int productId,string productType, DateTime from, DateTime to)
         {
             
-            return repository.ProductIsAvialible(productType, from, to); 
+            return repository.ProductIsAvialible(productId, productType, from, to); 
         }
         //public int AddToCart(int userId, int productId)
         //{
@@ -49,7 +49,7 @@ namespace Services
         //}
         public int AddToCart(int userId, int productId, DateTime from, DateTime to)
         {
-            return repository.AddToCart(userId, productId, from,to);
+            return repository.AddToCart(userId, productId, from, to);
         }
 
         public bool UpdateDate(int cartId, DateTime from, DateTime to)

@@ -11,5 +11,6 @@ namespace DTO
        public User User { get; set; }
        public Cart? Cart { get; set; }
        public IEnumerable<Product>? CartProducts { get; set;  }
+        public string Token { get; set; }
     }
 }

@@ -1,6 +1,9 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.IdentityModel.Tokens;
 using Services;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,11 +25,32 @@ builder.Services.AddCors(options =>
               //.SetPreflightMaxAge(TimeSpan.FromSeconds(86400)); ;
     });
 });
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(o =>
+{
+    o.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.FromSeconds(3600),
+        ValidateIssuerSigningKey = true
+    };
+});
+builder.Services.AddAuthorization();
 
 builder.Services.AddBLServices();
 
 var app = builder.Build();
-
+app.UseAuthentication();
+app.UseAuthorization();
 void ConfigureServices(IServiceCollection services)
 {
     services.AddCors(options =>

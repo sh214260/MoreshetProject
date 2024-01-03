@@ -39,7 +39,10 @@ namespace Repositories
                     context.ItemsForOrders.Add(itemForOrder);
                 }
                 context.Carts.SingleOrDefault(c => c.Id == newOrder.CartId).IsOpen = false;
-
+                context.Carts.SingleOrDefault(c => c.Id == newOrder.CartId).TotalPrice = 0;
+                var products = context.CartProducts.Where(p => p.CartId == newOrder.CartId);
+                context.CartProducts.RemoveRange(products);
+                
                 context.SaveChanges();
                 return context.Orders.First(order => order.Id == newOrder.Id).Id;
             }

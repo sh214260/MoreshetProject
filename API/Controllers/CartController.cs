@@ -22,12 +22,17 @@ namespace API.Controllers
         public DTO.Cart Get(int id)
         {
             return service.Get(id);
-        }      
+        }
+        [HttpGet("getcartbyuser/{userId}")]
+        public DTO.Cart GetByUser(int userId)
+        {
+            return service.GetByUser(userId);
+        }
 
         [HttpGet("productisavialible")] 
         public int Get([FromQuery] ProductToOrder pro)
         {
-            List<int> productIds= service.ProductIsAvialible(pro.ProductType, pro.From, pro.To);
+            List<int> productIds= service.ProductIsAvialible(pro.ProductId,pro.ProductType, pro.From, pro.To);
             if (productIds.Count()==0)
             {
                 //המוצר תפוס
@@ -47,8 +52,9 @@ namespace API.Controllers
         [HttpPost("updatedate/{cartId}/{from}/{to}")]
         public bool Post(int cartId, DateTime from, DateTime to)
         {
-            return service.UpdateDate(cartId,from, to);
+            return service.UpdateDate(cartId, from, to);
         }
+       
         //// GET api/<CartCartoller>
         //[HttpGet("gettotalprice/{cartid}")]
         //public double GetTotalPrice(int cartId)
