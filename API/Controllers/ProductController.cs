@@ -4,6 +4,7 @@ using DTO;
 using Repositories.Models;
 using Services;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -21,6 +22,7 @@ namespace API.Controllers
         }
         // GET: api/<ProductController>
         [HttpGet("getall")]
+       
         public IEnumerable<DTO.Product> Get()
         {
             IEnumerable<DTO.Product> data = service.Get();
@@ -40,10 +42,11 @@ namespace API.Controllers
             return service.Get(id);
         }
         [HttpGet("getavailable/{from}/{to}")]
+        [Authorize]
         public List<DTO.Product> GetAvailable(DateTime from, DateTime to)
         {
             List<DTO.Product> data = service.GetAvailable(from, to);
-            HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+          //  HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
             return data;
         }
 

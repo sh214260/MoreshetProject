@@ -125,5 +125,10 @@ namespace Repositories
             }
             return false;
         }
+
+        public User GetUserByToken(string token)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

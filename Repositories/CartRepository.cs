@@ -69,7 +69,6 @@ namespace Repositories
                 results.Add(productId);
             }
             return results;
-
         }
 
         public int AddToCart(int userId,int productId, DateTime from, DateTime to)

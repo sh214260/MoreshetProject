@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,5 +16,6 @@ namespace Services.Interfaces
         public DTO.User GetUser(string email, string password);
         public bool UpdateAddress(int userId, string adress);
         public bool UpdateUser (DTO.User newUser);
+        public DTO.User GetUserByToken(string token);
     }
 }

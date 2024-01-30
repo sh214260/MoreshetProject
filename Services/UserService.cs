@@ -101,5 +101,13 @@ namespace Services
         {
             return repository.UpdateUser(mapper.Map<Repositories.Models.User>(newUser));
         }
+
+        public DTO.User GetUserByToken(string token)
+        {
+            Repositories.Models.User _user = repository.GetUserByToken(token);
+            DTO.User user;
+            user = mapper.Map<DTO.User>(_user);
+            return user;
+        }
     }
 }

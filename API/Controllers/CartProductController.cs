@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -29,6 +30,7 @@ namespace API.Controllers
         }
 
         [HttpGet("getproducts/{cartId}")]
+        [Authorize]
         public IEnumerable<DTO.Product> GetProducts(int cartId)
         {
             IEnumerable<DTO.Product> data = service.GetProducts(cartId);
@@ -43,6 +45,7 @@ namespace API.Controllers
 
         // POST api/<CartProductController1>
         [HttpPost("delete/{cartId}/{productId}")]
+        [Authorize]
         public bool Post(int cartId, int productId)
         {
             return service.Delete(cartId, productId);

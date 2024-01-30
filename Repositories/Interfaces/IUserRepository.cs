@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Repositories.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,5 +16,6 @@ namespace Repositories.Interfaces
         public Models.User GetUser(string email, string password);
         public bool UpdateAddress(int userId, string address);
         public bool UpdateUser(Models.User newUser);
+        public User GetUserByToken(string token);
     }
 }

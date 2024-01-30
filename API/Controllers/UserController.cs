@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
+using Newtonsoft.Json.Linq;
 //using System.Web.Http;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -48,8 +49,40 @@ namespace API.Controllers
           return service.Get(id);
         }
 
-        // GET api/<User>/5
-        [HttpPost("signin")]
+        [HttpGet("{token}")]
+        public DTO.LoginResponse GetDetailOfUser(string token)
+        {
+            DTO.User user = service.GetUserByToken(token);
+            if (user == null)
+            {
+                throw new System.Web.Http.HttpResponseException(System.Net.HttpStatusCode.Unauthorized);
+            }
+            DTO.Cart cart = cartservice.GetByUser(user.Id);
+            if (cart == null)
+            {
+                throw new System.Web.Http.HttpResponseException(System.Net.HttpStatusCode.Unauthorized);
+            }
+            IEnumerable<DTO.Product> cartProducts = cartProductservice.GetProducts(cart.Id);
+            if (cartProducts == null)
+            {
+                LoginResponse respo = new LoginResponse()
+                {
+                    User = user,
+                    Cart = cart,
+                    CartProducts = null,
+                };
+                return respo;
+            }
+            LoginResponse response = new LoginResponse()
+            {
+                User = user,
+                Cart = cart,
+                CartProducts = cartProducts,
+            };
+            return response;
+        }
+            // GET api/<User>/5
+            [HttpPost("signin")]
         public DTO.LoginResponse Singin([FromBody] Login login)
         {
             DTO.User user = service.GetUser(login.email, login.password);
@@ -124,10 +157,9 @@ namespace API.Controllers
         //[EnableCors("AllowAllOrigins")]
         public bool UpdateUser([FromBody] DTO.User user)
         {
-            bool data = service.UpdateUser(user);
+            bool response = service.UpdateUser(user);
             HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
-            return data;
-
+            return response;
         }
         
         // DELETE api/<User>/5
