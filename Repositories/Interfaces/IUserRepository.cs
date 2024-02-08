@@ -14,6 +14,7 @@ namespace Repositories.Interfaces
         public void Delete(int userId);
         public IEnumerable<Models.User> Get(Func<Models.User, bool>? predicate = null);
         public Models.User GetUser(string email, string password);
+        public Models.User GetUserByPhone(string phonenumber);
         public bool UpdateAddress(int userId, string address);
         public bool UpdateUser(Models.User newUser);
         public User GetUserByToken(string token);

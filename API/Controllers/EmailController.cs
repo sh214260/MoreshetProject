@@ -1,6 +1,7 @@
 ﻿using DTO;
 using Microsoft.AspNetCore.Mvc;
 using Services;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -25,5 +26,15 @@ namespace API.Controllers
             return true;
            return false;
         }
+        [HttpPost("confirmorder")]
+        [Authorize]
+
+        public bool ConfirmOreder([FromBody] DTO.OrderData data)
+        {
+            if (_emailService.SendConfirmOrderToClient(data.order, data.user))
+                return true;
+            return false;
+        }
+
     }
 }

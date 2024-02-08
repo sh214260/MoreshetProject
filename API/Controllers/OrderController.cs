@@ -12,6 +12,7 @@ namespace API.Controllers
     public class OrderController : ControllerBase
     {
         private readonly Services.Interfaces.IOrderService service;
+        //private readonly Services.Interfaces.IEmailService _emailService;
         public OrderController(IOrderService bl)
         {
             service = bl;
@@ -38,9 +39,10 @@ namespace API.Controllers
 
         // POST api/<OrderController>
         [HttpPost("addorder")]
+        [Authorize]
         public int Post([FromBody] DTO.Order order)
         {
-           return service.AddNew(order);
+             return service.AddNew(order);
         }
         [HttpGet("getdeliveryprice/{cartId}")]
         [Authorize]

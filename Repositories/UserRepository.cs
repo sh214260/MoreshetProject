@@ -94,7 +94,15 @@ namespace Repositories
             return null;
             
         }
-       
+        public Models.User GetUserByPhone(string phonenumber)
+        {
+            //todo:first or defual
+            Models.User? user = context.Users.Where(user => user.PhoneNumber1 == phonenumber || user.PhoneNumber2 == phonenumber).FirstOrDefault();
+            if (user != null)
+                return user;
+            return null;
+
+        }
         public bool UpdateAddress(int userId, string address)
         {
             var user = context.Users.FirstOrDefault(u => u.Id == userId);

@@ -48,17 +48,29 @@ namespace Repositories
             }
             return cart;
         }
-        public List<int> ProductIsAvialible(int productId,string productType, DateTime fromDate, DateTime to)
+        public List<int> ProductIsAvialible(int productId, string productType, DateTime fromDate, DateTime to)
         {
+            var query1 = from o in context.Orders
+                         join i in context.ItemsForOrders on o.Id equals i.OrderId
+                         join p in context.Products on i.ProductId equals p.Id
+                         where p.Type == productType
+                         select o;
+            List<Order> test = query1.ToList();
+            Console.WriteLine(test);
+
+
             List<int> results = new List<int>();
             var query2 = from o in context.Orders
                          join i in context.ItemsForOrders on o.Id equals i.OrderId
                          join p in context.Products on i.ProductId equals p.Id
                          where p.Type == productType
-                         where (o.FromDate == fromDate || o.ToDate == to)
+                         where ( (o.FromDate <= fromDate && o.ToDate >= to)
+                         || (o.FromDate >= fromDate && o.FromDate < to)
+                         || (o.ToDate >= fromDate && o.ToDate < to))                         
                          select p.Id;
-            List<int> productsTypeInOrder= query2.ToList();
-            if (productsTypeInOrder.Contains(productId)){
+            List<int> productsTypeInOrder = query2.ToList();
+            if (productsTypeInOrder.Contains(productId))
+            {
                 //נצטרך לחפש מוצר אחר
                 List<int> allproductstype = context.Products.Where(p => p.Type == productType).Select(p => p.Id).ToList();
                 allproductstype.RemoveAll(p => productsTypeInOrder.Contains(p));

@@ -85,10 +85,22 @@ namespace API.Controllers
             [HttpPost("signin")]
         public DTO.LoginResponse Singin([FromBody] Login login)
         {
-            DTO.User user = service.GetUser(login.email, login.password);
-            if (user == null)
+            DTO.User user = new DTO.User();
+            if (login.by == "client" && login.email != "" && login.password != "")
             {
-                throw new System.Web.Http.HttpResponseException(System.Net.HttpStatusCode.Unauthorized);
+                user = service.GetUser(login.email, login.password);
+                if (user == null)
+                {
+                    throw new System.Web.Http.HttpResponseException(System.Net.HttpStatusCode.Unauthorized);
+                }
+            }
+            else
+            {
+                user = service.GetUserByPhone(login.phonenumber);
+                if (user == null)
+                {
+                    throw new System.Web.Http.HttpResponseException(System.Net.HttpStatusCode.Unauthorized);
+                }
             }
             DTO.Cart cart = cartservice.GetByUser(user.Id);
             if (cart == null)

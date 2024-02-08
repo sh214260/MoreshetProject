@@ -92,6 +92,14 @@ namespace Services
             return user;
             
         }
+        public User GetUserByPhone(string phonenumber)
+        {
+            Repositories.Models.User user1 = repository.GetUserByPhone(phonenumber);
+            DTO.User user;
+            user = mapper.Map<DTO.User>(user1);
+            return user;
+
+        }
         public bool UpdateAddress(int userId, string address)
         {
             return repository.UpdateAddress(userId, address);

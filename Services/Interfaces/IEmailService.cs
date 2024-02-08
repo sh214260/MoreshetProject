@@ -9,5 +9,7 @@ namespace Services.Interfaces
     public interface IEmailService
     {
         public bool SendContactFormEmail(string? name, string? email, string? phone, string? message);
+        public bool SendConfirmOrderToClient(DTO.Order order, DTO.User user);
+
     }
 }
