@@ -25,6 +25,8 @@ public partial class Order
 
     public int? CartId { get; set; }
 
+    public string? Notes { get; set; }
+
     public virtual Cart? Cart { get; set; }
 
     public virtual ICollection<ItemsForOrder> ItemsForOrders { get; set; } = new List<ItemsForOrder>();

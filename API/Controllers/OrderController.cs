@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using DTO;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -36,6 +37,19 @@ namespace API.Controllers
         {
             return service.Get(id);             
         }
+        [HttpGet("getAllData/{orderId}")]
+        public DTO.OrderData GetAllData(int orderId)
+        {
+            return service.GetAllData(orderId);
+        }
+
+        // GET api/<OrderController>/5
+        [HttpGet("getByDate/{date}")]
+        public IEnumerable<OrderByDay> GetByDate( string date)
+        {
+            DateOnly d1 = DateOnly.Parse(date);
+            return service.GetByDate(d1);
+        }
 
         // POST api/<OrderController>
         [HttpPost("addorder")]
@@ -51,17 +65,6 @@ namespace API.Controllers
             return service.GetDeliveryPrice(cartId);
         }
 
-        // PUT api/<OrderController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] DTO.Order order)
-        //{
-        //}
-
-        //// DELETE api/<OrderController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //    service.Delete(id);
-        //}
+        
     }
 }

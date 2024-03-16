@@ -9,6 +9,9 @@ using System.Text;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+
 //using System.Web.Http;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -48,41 +51,67 @@ namespace API.Controllers
         {
           return service.Get(id);
         }
+        
+        [HttpGet("Profile")]
+        [Authorize]
+        public IActionResult GetProfile()
+       {
+            HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "http://localhost:3000");
+            var userIdClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Email);
+            if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int userId))
+            {
+                // Now you have the USER.ID in the userId variable
+                // You can use this userId to make a request to a service
+                var userDetails = service.Get(userId);
 
-        [HttpGet("{token}")]
-        public DTO.LoginResponse GetDetailOfUser(string token)
-        {
-            DTO.User user = service.GetUserByToken(token);
-            if (user == null)
-            {
-                throw new System.Web.Http.HttpResponseException(System.Net.HttpStatusCode.Unauthorized);
-            }
-            DTO.Cart cart = cartservice.GetByUser(user.Id);
-            if (cart == null)
-            {
-                throw new System.Web.Http.HttpResponseException(System.Net.HttpStatusCode.Unauthorized);
-            }
-            IEnumerable<DTO.Product> cartProducts = cartProductservice.GetProducts(cart.Id);
-            if (cartProducts == null)
-            {
-                LoginResponse respo = new LoginResponse()
+                if (userDetails != null)
                 {
-                    User = user,
-                    Cart = cart,
-                    CartProducts = null,
-                };
-                return respo;
+                    return Ok(userDetails); // Return user details from the service
+                }
+                else
+                {
+                    return NotFound("User details not found");
+                }
             }
-            LoginResponse response = new LoginResponse()
+            else
             {
-                User = user,
-                Cart = cart,
-                CartProducts = cartProducts,
-            };
-            return response;
+                return BadRequest("Unable to extract User ID from token");
+            }
         }
-            // GET api/<User>/5
-            [HttpPost("signin")]
+        //[HttpGet()]
+        //public DTO.LoginResponse GetDetailOfUser()
+        //{
+        //    DTO.User user = service.GetUserByToken();
+        //    if (user == null)
+        //    {
+        //        throw new System.Web.Http.HttpResponseException(System.Net.HttpStatusCode.Unauthorized);
+        //    }
+        //    DTO.Cart cart = cartservice.GetByUser(user.Id);
+        //    if (cart == null)
+        //    {
+        //        throw new System.Web.Http.HttpResponseException(System.Net.HttpStatusCode.Unauthorized);
+        //    }
+        //    IEnumerable<DTO.Product> cartProducts = cartProductservice.GetProducts(cart.Id);
+        //    if (cartProducts == null)
+        //    {
+        //        LoginResponse respo = new LoginResponse()
+        //        {
+        //            User = user,
+        //            Cart = cart,
+        //            CartProducts = null,
+        //        };
+        //        return respo;
+        //    }
+        //    LoginResponse response = new LoginResponse()
+        //    {
+        //        User = user,
+        //        Cart = cart,
+        //        CartProducts = cartProducts,
+        //    };
+        //    return response;
+        //}
+        //// GET api/<User>/5
+        [HttpPost("signin")]
         public DTO.LoginResponse Singin([FromBody] Login login)
         {
             DTO.User user = new DTO.User();

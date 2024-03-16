@@ -21,6 +21,12 @@ public partial class Product
 
     public string? Image { get; set; }
 
+    public double? Length { get; set; }
+
+    public double? Width { get; set; }
+
+    public string? Comment { get; set; }
+
     public virtual ICollection<CartProduct> CartProducts { get; set; } = new List<CartProduct>();
 
     public virtual ICollection<ItemsForOrder> ItemsForOrders { get; set; } = new List<ItemsForOrder>();

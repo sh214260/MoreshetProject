@@ -20,6 +20,8 @@ namespace API.Controllers
         {
             service = bl;
         }
+        // Example API endpoint to handle image upload
+
         // GET: api/<ProductController>
         [HttpGet("getall")]
        
@@ -58,6 +60,32 @@ namespace API.Controllers
             bool data = service.AddNew(product);
             HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
             return data;
+        }
+        [HttpPost("uploadImage")]
+        public IActionResult UploadImage(IFormFile image)
+        {
+            if (image == null || image.Length == 0)
+            {
+                return BadRequest("No image uploaded.");
+            }
+
+            // Save the image to a folder in your server
+            //var uniqueFileName = Guid.NewGuid().ToString() + "_" + image.FileName;
+            var uniqueFileName =  image.FileName;
+            
+            var filePath = Path.Combine("C:\\Users\\User\\Documents\\development\\MoreshetProject\\API\\Static\\", uniqueFileName);
+            if (System.IO.File.Exists(filePath))
+            {
+                return BadRequest("כבר קיים קובץ עם שם זהה");
+            }
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                image.CopyTo(stream);
+            }
+
+            // You can save the image path or uniqueFileName in the database
+            // In this case, let's return the uniqueFileName to the frontend
+            return Ok(new { imageName = uniqueFileName }); // Return the image filename to the frontend
         }
 
 

@@ -37,20 +37,13 @@ public partial class FullStackMoreshetdbContext : DbContext
     {
         modelBuilder.Entity<Cart>(entity =>
         {
-
             entity.ToTable("Cart");
 
             entity.HasOne(d => d.User).WithMany(p => p.Carts)
                 .HasForeignKey(d => d.UserId)
-                
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Cart_User");
         });
-        modelBuilder.Entity<Cart>()
-        .HasMany(c => c.CartProducts)
-        .WithOne(cp => cp.Cart)
-        .IsRequired()
-        .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<CartProduct>(entity =>
         {
@@ -93,6 +86,8 @@ public partial class FullStackMoreshetdbContext : DbContext
         {
             entity.ToTable("Order");
 
+            entity.Property(e => e.Notes).HasMaxLength(50);
+
             entity.HasOne(d => d.Cart).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.CartId)
                 .HasConstraintName("FK_Order_Cart");
@@ -107,6 +102,7 @@ public partial class FullStackMoreshetdbContext : DbContext
         {
             entity.ToTable("Product");
 
+            entity.Property(e => e.Comment).HasMaxLength(100);
             entity.Property(e => e.Description).HasMaxLength(100);
             entity.Property(e => e.Image).HasMaxLength(20);
             entity.Property(e => e.Name).HasMaxLength(20);
@@ -118,19 +114,11 @@ public partial class FullStackMoreshetdbContext : DbContext
             entity.ToTable("User");
 
             entity.Property(e => e.Address).HasMaxLength(50);
-            entity.Property(e => e.Email)
-                .HasMaxLength(50)
-                .IsFixedLength();
+            entity.Property(e => e.Email).HasMaxLength(40);
             entity.Property(e => e.Name).HasMaxLength(50);
-            entity.Property(e => e.Password)
-                .HasMaxLength(10)
-                .IsFixedLength();
-            entity.Property(e => e.PhoneNumber1)
-                .HasMaxLength(10)
-                .IsFixedLength();
-            entity.Property(e => e.PhoneNumber2)
-                .HasMaxLength(10)
-                .IsFixedLength();
+            entity.Property(e => e.Password).HasMaxLength(50);
+            entity.Property(e => e.PhoneNumber1).HasMaxLength(50);
+            entity.Property(e => e.PhoneNumber2).HasMaxLength(50);
         });
 
         OnModelCreatingPartial(modelBuilder);

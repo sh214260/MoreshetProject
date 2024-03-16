@@ -18,6 +18,9 @@ namespace DTO
         public string? Description { get; set; }
         public string? Type { get; set; }
         public bool Weight { get; set; }
+        public string? Comment { get; set; }
+        public double? Length { get; set; }
+        public double? Width { get; set; }
         public string? Image { get; set; }
         public override bool Equals(object? obj)
         {

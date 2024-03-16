@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Repositories.Models;
+using Repositories.Interfaces;
 namespace Services.Interfaces
 {
-    internal interface IItemForOrderService
+    public interface IItemForOrderService
     {
+        public IEnumerable<DTO.Product> GetProducts(int orderId);
     }
 }

@@ -118,5 +118,24 @@ namespace Repositories
             }
 
         }
+
+        public IEnumerable<Order>? GetByDate(DateOnly date)
+        {
+            int year = date.Year;
+            int month = date.Month;
+            int day = date.Day;
+            IEnumerable<Order> orders = context.Orders.Where(or => or.DateOrder.Year == year && or.DateOrder.Month == month && or.DateOrder.Day == day);
+            return orders;
+        }
+    
+
+        public List<string> GetProductsName(int orderId)
+        {
+            var productNames = context.Products
+                .Where(p => context.ItemsForOrders.Any(it => it.ProductId == p.Id && it.OrderId == orderId))
+                .Select(p => p.Name);
+            return productNames.ToList();
+        }
+       
     }
 }

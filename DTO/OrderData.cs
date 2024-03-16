@@ -10,5 +10,6 @@ namespace DTO
     {
         public DTO.Order order { get; set; }
         public DTO.User user { get; set; }
+        public IEnumerable<DTO.Product> products { get; set; }
     }
 }

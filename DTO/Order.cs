@@ -26,6 +26,7 @@ namespace DTO
 
         public int TotalPrice { get; set; }
         public int? CartId { get; set; }
+        public string? Notes { get; set; }
 
     }
 }

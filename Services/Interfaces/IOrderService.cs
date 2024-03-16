@@ -15,6 +15,8 @@ namespace Services.Interfaces
         public void Delete(int orderId);
         public IEnumerable<DTO.Order> Get(Func<Repositories.Models.Order, bool>? predicate = null);
         public IEnumerable<Order> GetByUser(int userId);
+        public IEnumerable<OrderByDay> GetByDate(DateOnly date);
         public int GetDeliveryPrice(int cartId);
+       public OrderData GetAllData(int orderId);
     }
 }

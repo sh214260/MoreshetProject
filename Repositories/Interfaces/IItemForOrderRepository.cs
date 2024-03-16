@@ -8,5 +8,6 @@ namespace Repositories.Interfaces
 {
     public interface IItemForOrderRepository
     {
+        public IEnumerable<Models.Product> GetProducts(int orderId);
     }
 }

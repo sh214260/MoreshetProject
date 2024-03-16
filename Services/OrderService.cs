@@ -2,6 +2,7 @@
 using DTO;
 using Repositories.Interfaces;
 using Repositories.Models;
+using Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +15,15 @@ namespace Services
     {
         private readonly IMapper mapper;
         private readonly Repositories.Interfaces.IOrderRepository repository;
-        public OrderService(IOrderRepository dal, IMapper _mapper)
+        private readonly Services.Interfaces.IUserService UserService;
+        private readonly Services.Interfaces.IItemForOrderService ItemsService;
+
+        public OrderService(IOrderRepository dal, IMapper _mapper, IUserService userService, IItemForOrderService itemsService)
         {
             mapper = _mapper;
             repository = dal;
+            UserService = userService;
+            ItemsService = itemsService;
         }
         public int AddNew(DTO.Order newOrder)
         {
@@ -81,6 +87,30 @@ namespace Services
             return orders;
             
         }
+
+        public IEnumerable<DTO.OrderByDay> GetByDate(DateOnly date)
+        {
+            IEnumerable<Repositories.Models.Order> orders = repository.GetByDate(date).ToList();
+            List<DTO.OrderByDay> ordersDay = new List<DTO.OrderByDay>();
+
+            foreach (var order in orders)
+            {
+                List<string> names = repository.GetProductsName(order.Id);
+                string? userName = UserService.Get(order.UserId).Name;
+                DTO.OrderByDay orderDto = new DTO.OrderByDay
+                {
+                    OrderId = order.Id,
+                    FromDate = order.FromDate,
+                    ToDate = order.ToDate,
+                    ProductsName = names,
+                    UserName = userName
+                };
+                ordersDay.Add(orderDto);
+            }
+            return ordersDay;
+        }
+
+
         public IEnumerable<DTO.Order> GetByUser(int userId)
         {
             IEnumerable<Repositories.Models.Order> ModelsOrder = repository.GetByUser(userId);
@@ -99,6 +129,14 @@ namespace Services
         public int GetDeliveryPrice(int cartId)
         {
            return repository.GetDeliveryPrice(cartId);
+        }
+        public OrderData GetAllData(int orderId)
+        {
+            DTO.OrderData orderData = new DTO.OrderData();
+            orderData.order = Get(orderId);
+            orderData.user = UserService.Get(orderData.order.UserId);
+            orderData.products = ItemsService.GetProducts(orderId);
+            return orderData;
         }
     }
 }
