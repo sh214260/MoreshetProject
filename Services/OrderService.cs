@@ -36,20 +36,13 @@ namespace Services
             return -1;
         }
 
-        public void Delete(int orderId)
+        public bool Delete(int orderId)
         {
             if (orderId < 0)
             {
                 throw new EntityNotFoundExceptions();
             }
-            try
-            {
-                repository.Delete(orderId);
-            }
-            catch
-            {
-
-            }
+            return repository.Delete(orderId);
         }
 
         public DTO.Order Get(int orderId)
@@ -138,5 +131,7 @@ namespace Services
             orderData.products = ItemsService.GetProducts(orderId);
             return orderData;
         }
+
+       
     }
 }

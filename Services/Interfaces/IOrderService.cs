@@ -12,7 +12,7 @@ namespace Services.Interfaces
     {
         public int AddNew(DTO.Order newOrder);
         public DTO.Order Get(int orderId);
-        public void Delete(int orderId);
+        public bool Delete(int orderId);
         public IEnumerable<DTO.Order> Get(Func<Repositories.Models.Order, bool>? predicate = null);
         public IEnumerable<Order> GetByUser(int userId);
         public IEnumerable<OrderByDay> GetByDate(DateOnly date);

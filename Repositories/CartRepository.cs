@@ -65,6 +65,7 @@ namespace Repositories
                          join p in context.Products on i.ProductId equals p.Id
                          where p.Type == productType
                          where ( (o.FromDate <= fromDate && o.ToDate >= to)
+                        
                          || (o.FromDate >= fromDate && o.FromDate < to)
                          || (o.ToDate >= fromDate && o.ToDate < to))                         
                          select p.Id;
@@ -107,10 +108,17 @@ namespace Repositories
                     ProductId = productId
                 };
                 //צריך לבדוק שכאשר משנים תאריך כל המוצרים בעגלה עדיין פנויים בתאריך החדש!
-                existingCart.FromDate= from;
-                existingCart.ToDate= to;
+                existingCart.FromDate = from;
+                existingCart.ToDate = to;
                 existingCart.CartProducts.Add(cartProduct);
-                existingCart.TotalPrice += context.Products.First(p => p.Id == productId).Price;
+                Models.Product pr = context.Products.First(p => p.Id == productId);
+                double numOfAdditionHours = (to - from).TotalHours - 4;
+                int priceForAdditionHours = 0;
+                if (numOfAdditionHours > 0)
+                {
+                    priceForAdditionHours = (int)pr.Price / 8;
+                }
+                existingCart.TotalPrice += pr.Price + priceForAdditionHours * numOfAdditionHours;
                 context.SaveChanges();
                 return existingCart.Id;
             }

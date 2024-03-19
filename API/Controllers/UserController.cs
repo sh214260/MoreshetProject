@@ -78,39 +78,8 @@ namespace API.Controllers
                 return BadRequest("Unable to extract User ID from token");
             }
         }
-        //[HttpGet()]
-        //public DTO.LoginResponse GetDetailOfUser()
-        //{
-        //    DTO.User user = service.GetUserByToken();
-        //    if (user == null)
-        //    {
-        //        throw new System.Web.Http.HttpResponseException(System.Net.HttpStatusCode.Unauthorized);
-        //    }
-        //    DTO.Cart cart = cartservice.GetByUser(user.Id);
-        //    if (cart == null)
-        //    {
-        //        throw new System.Web.Http.HttpResponseException(System.Net.HttpStatusCode.Unauthorized);
-        //    }
-        //    IEnumerable<DTO.Product> cartProducts = cartProductservice.GetProducts(cart.Id);
-        //    if (cartProducts == null)
-        //    {
-        //        LoginResponse respo = new LoginResponse()
-        //        {
-        //            User = user,
-        //            Cart = cart,
-        //            CartProducts = null,
-        //        };
-        //        return respo;
-        //    }
-        //    LoginResponse response = new LoginResponse()
-        //    {
-        //        User = user,
-        //        Cart = cart,
-        //        CartProducts = cartProducts,
-        //    };
-        //    return response;
-        //}
-        //// GET api/<User>/5
+       
+        // GET api/<User>/5
         [HttpPost("signin")]
         public DTO.LoginResponse Singin([FromBody] Login login)
         {

@@ -65,6 +65,13 @@ namespace API.Controllers
             return service.GetDeliveryPrice(cartId);
         }
 
+        [HttpDelete("{orderId}")]
+        [Authorize] 
+        public bool Delete(int orderId)
+        {
+            return service.Delete(orderId);
+        }
+
         
     }
 }

@@ -52,24 +52,23 @@ namespace Repositories
             }
         }
 
-        public void Delete(int orderId)
+        public bool Delete(int orderId)
         {
-            try
+            if (orderId < 0)
             {
-                if (orderId < 0)
-                {
-                    //to do: ex
-                    throw new ArgumentOutOfRangeException();
-                }
-                Models.Order order = new Order();
-                order = context.Orders.Find(orderId);
+                throw new ArgumentOutOfRangeException();
+            }
+            Models.Order? order = new Order();
+            order = context.Orders.Find(orderId);
+            if (order != null)
+            {
+                var itemsForOrder = context.ItemsForOrders.Where(item => item.OrderId == orderId);
+                context.ItemsForOrders.RemoveRange(itemsForOrder);
                 context.Orders.Remove(order);
                 context.SaveChanges();
+                return true;
             }
-            catch
-            {
-
-            }
+            return false;
         }
 
         public IEnumerable<Models.Order> Get(Func<Models.Order, bool>? predicate = null)
