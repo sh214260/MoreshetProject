@@ -13,7 +13,6 @@ namespace API.Controllers
     public class OrderController : ControllerBase
     {
         private readonly Services.Interfaces.IOrderService service;
-        //private readonly Services.Interfaces.IEmailService _emailService;
         public OrderController(IOrderService bl)
         {
             service = bl;

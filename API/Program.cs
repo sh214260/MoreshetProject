@@ -21,8 +21,7 @@ builder.Services.AddCors(options =>
         builder.AllowAnyOrigin()
               .AllowAnyHeader()
               .AllowAnyMethod();
-              //.AllowCredentials()
-              //.SetPreflightMaxAge(TimeSpan.FromSeconds(86400)); ;
+              
     });
 });
 builder.Services.AddAuthentication(options =>
@@ -69,10 +68,8 @@ void ConfigureServices(IServiceCollection services)
 
 void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 {
-    // app.UseCors("AllowAllOrigins");
     app.UseCors("AllowAll");
 }
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -90,44 +87,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-
-//void ConfigureServices(IServiceCollection services)
-//{
-//    services.AddCors(options =>
-//    {
-//        options.AddPolicy("AllowAllOrigins",
-//            builder =>
-//            {
-//                builder.AllowAnyOrigin();
-//            });
-//    });
-//}
-//void ConfigureServices(IServiceCollection services)
-//{
-//    services.AddCors(options =>
-//    {
-//        options.AddDefaultPolicy(builder =>
-//        {
-//            builder.WithOrigins("http://localhost:3000")
-//                .AllowAnyHeader()
-//                .AllowAnyMethod().AllowAnyOrigin();
-//        });
-//    });
-//}
-
-//services.AddCors(options =>
-//{
-//    options.AddPolicy("AllowAll", builder =>
-//    {
-//        builder.AllowAnyOrigin()
-//               .AllowAnyHeader()
-//               .AllowAnyMethod();
-//    });
-//});
 app.UseCors("AllowAll");
 
-    //builder =>
-//builder.WithOrigins("http://localhost:3000")
-//       .WithMethods("POST", "PUT")
-//       .WithHeaders("Content-Type"));
+ 
 app.Run();

@@ -20,7 +20,6 @@ namespace API.Controllers
         {
             service = bl;
         }
-        // Example API endpoint to handle image upload
 
         // GET: api/<ProductController>
         [HttpGet("getall")]
@@ -48,13 +47,11 @@ namespace API.Controllers
         public List<DTO.Product> GetAvailable(DateTime from, DateTime to)
         {
             List<DTO.Product> data = service.GetAvailable(from, to);
-          //  HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
             return data;
         }
 
         // POST api/<ProductController>
         [HttpPost("addproduct")]
-        //[EnableCors("AllowAll")]
         public bool Post(DTO.Product product)
         {
             bool data = service.AddNew(product);
@@ -68,9 +65,6 @@ namespace API.Controllers
             {
                 return BadRequest("No image uploaded.");
             }
-
-            // Save the image to a folder in your server
-            //var uniqueFileName = Guid.NewGuid().ToString() + "_" + image.FileName;
             var uniqueFileName =  image.FileName;
             
             var filePath = Path.Combine("C:\\Users\\User\\Documents\\development\\MoreshetProject\\API\\Static\\", uniqueFileName);
@@ -82,10 +76,7 @@ namespace API.Controllers
             {
                 image.CopyTo(stream);
             }
-
-            // You can save the image path or uniqueFileName in the database
-            // In this case, let's return the uniqueFileName to the frontend
-            return Ok(new { imageName = uniqueFileName }); // Return the image filename to the frontend
+            return Ok(new { imageName = uniqueFileName }); 
         }
 
 

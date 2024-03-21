@@ -19,6 +19,12 @@ namespace Services
             mapper = _mapper;
             repository = dal;
         }
+
+        public bool Delete(int orderId, int productId)
+        {
+            return repository.Delete(orderId, productId);
+        }
+
         public IEnumerable<DTO.Product> GetProducts(int orderId)
         {
             IEnumerable<Repositories.Models.Product> ModelsProducts = repository.GetProducts(orderId);

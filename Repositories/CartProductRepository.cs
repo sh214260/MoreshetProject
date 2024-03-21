@@ -1,5 +1,6 @@
 ﻿using Repositories.Interfaces;
 using Repositories.Models;
+using System;
 
 namespace Repositories
 {
@@ -33,7 +34,7 @@ namespace Repositories
             }
             else
             {
-                var cart = context.Carts.FirstOrDefault(c => c.Id == cartId);
+                Models.Cart? cart = context.Carts.FirstOrDefault(c => c.Id == cartId);
                 if (cart != null)
                 {
                     var cartProduct = context.CartProducts.FirstOrDefault
@@ -41,7 +42,17 @@ namespace Repositories
                     if (cartProduct != null)
                     {
                         context.CartProducts.Remove(cartProduct);
-                        cart.TotalPrice -= context.Products.First(p => p.Id == productId).Price;
+                        Models.Product pr = context.Products.First(p => p.Id == productId);
+                        cart.TotalPrice -= pr.Price;
+                        TimeSpan? time = (cart.ToDate - cart.FromDate);
+                        double numOfAdditionHours = 0;
+                        numOfAdditionHours = time.Value.TotalHours-4;
+                        int priceForAdditionHours = 0;
+                        if (numOfAdditionHours > 0)
+                        {
+                            priceForAdditionHours = (int)pr.Price / 8;
+                            cart.TotalPrice -= priceForAdditionHours * numOfAdditionHours;
+                        }
                         context.SaveChanges();
                         return true;
                     }

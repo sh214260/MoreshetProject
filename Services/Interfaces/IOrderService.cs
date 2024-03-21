@@ -17,6 +17,6 @@ namespace Services.Interfaces
         public IEnumerable<Order> GetByUser(int userId);
         public IEnumerable<OrderByDay> GetByDate(DateOnly date);
         public int GetDeliveryPrice(int cartId);
-       public OrderData GetAllData(int orderId);
+        public OrderData GetAllData(int orderId);
     }
 }

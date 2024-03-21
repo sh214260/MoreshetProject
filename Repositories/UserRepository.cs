@@ -87,7 +87,6 @@ namespace Repositories
 
         public Models.User GetUser(string email, string password)
         {
-            //todo:first or defual
             Models.User ?user = context.Users.Where(user => user.Email == email && user.Password == password).FirstOrDefault();
             if (user != null)
                 return user;
@@ -96,7 +95,6 @@ namespace Repositories
         }
         public Models.User GetUserByPhone(string phonenumber)
         {
-            //todo:first or defual
             Models.User? user = context.Users.Where(user => user.PhoneNumber1 == phonenumber || user.PhoneNumber2 == phonenumber).FirstOrDefault();
             if (user != null)
                 return user;
@@ -122,7 +120,6 @@ namespace Repositories
 
             if (user != null)
             {
-                //context.Users.Update(newUser);
                 user.Email= newUser.Email;
                 user.Address= newUser.Address;
                 user.PhoneNumber1= newUser.PhoneNumber1;

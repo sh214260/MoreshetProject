@@ -20,7 +20,6 @@ namespace Repositories
         {
             if (id < 0)
             {
-                //to do: ex
                 throw new ArgumentOutOfRangeException();
             }
             Models.Cart cart = new Cart();
@@ -72,7 +71,7 @@ namespace Repositories
             List<int> productsTypeInOrder = query2.ToList();
             if (productsTypeInOrder.Contains(productId))
             {
-                //נצטרך לחפש מוצר אחר
+                //search another product
                 List<int> allproductstype = context.Products.Where(p => p.Type == productType).Select(p => p.Id).ToList();
                 allproductstype.RemoveAll(p => productsTypeInOrder.Contains(p));
                 results.AddRange(allproductstype);
@@ -107,7 +106,6 @@ namespace Repositories
                 {
                     ProductId = productId
                 };
-                //צריך לבדוק שכאשר משנים תאריך כל המוצרים בעגלה עדיין פנויים בתאריך החדש!
                 existingCart.FromDate = from;
                 existingCart.ToDate = to;
                 existingCart.CartProducts.Add(cartProduct);
@@ -124,7 +122,7 @@ namespace Repositories
             }
             else
             {
-                //קיים כבר מוצר כזה
+                //there is the same product
                 return -1;
             }
         }
@@ -134,7 +132,6 @@ namespace Repositories
 
             if (cart != null)
             {
-                //var prod = cart.CartProducts;
                 var prod = context.CartProducts.Where(cp => cp.CartId == cart.Id);
                 context.CartProducts.RemoveRange(prod);
                 cart.FromDate = from;
@@ -143,7 +140,6 @@ namespace Repositories
                 context.SaveChanges();
                 return true;
             }
-
             return false;
         }
 

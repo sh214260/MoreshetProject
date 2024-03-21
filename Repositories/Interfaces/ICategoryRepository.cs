@@ -13,7 +13,6 @@ namespace Repositories.Interfaces
         public bool AddNew(Category newCategory);
         public void Delete(int categoryId);
         public Repositories.Models.Category Get(int id);
-
         public IEnumerable<Category> Get(Func<Models.Category, bool>? predicate = null);
     }
 }

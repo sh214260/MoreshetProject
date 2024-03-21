@@ -9,6 +9,7 @@ namespace Services.Interfaces
 {
     public interface IItemForOrderService
     {
+       public bool Delete(int cartId, int productId);
         public IEnumerable<DTO.Product> GetProducts(int orderId);
     }
 }

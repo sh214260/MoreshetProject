@@ -42,7 +42,6 @@ namespace API.Controllers
             IEnumerable <DTO.User> data = service.Get();
             HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
             return data;
-
         }
 
         // GET api/<User>/5
@@ -51,17 +50,15 @@ namespace API.Controllers
         {
           return service.Get(id);
         }
-        
+
         [HttpGet("Profile")]
         [Authorize]
         public IActionResult GetProfile()
-       {
+        {
             HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "http://localhost:3000");
             var userIdClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Email);
             if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int userId))
             {
-                // Now you have the USER.ID in the userId variable
-                // You can use this userId to make a request to a service
                 var userDetails = service.Get(userId);
 
                 if (userDetails != null)
@@ -73,10 +70,8 @@ namespace API.Controllers
                     return NotFound("User details not found");
                 }
             }
-            else
-            {
-                return BadRequest("Unable to extract User ID from token");
-            }
+            return BadRequest("Unable to extract User ID from token");
+
         }
        
         // GET api/<User>/5
@@ -155,7 +150,6 @@ namespace API.Controllers
 
         // POST api/<User>
         [HttpPost("signup/{password}")]
-        //[EnableCors("AllowAllOrigins")]
         public bool SignUp(string password,[FromBody] DTO.User user)
         {
             bool data = service.AddNew(password,user);
@@ -164,7 +158,6 @@ namespace API.Controllers
             
         }
         [HttpPost("updateuser")]
-        //[EnableCors("AllowAllOrigins")]
         public bool UpdateUser([FromBody] DTO.User user)
         {
             bool response = service.UpdateUser(user);

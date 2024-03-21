@@ -40,7 +40,7 @@ namespace API.Controllers
             List<int> productIds= service.ProductIsAvialible(pro.ProductId,pro.ProductType, pro.From, pro.To);
             if (productIds.Count()==0)
             {
-                //המוצר תפוס
+                //the product is occupied
                 return 0;
             } 
             foreach (int productId in productIds)
@@ -51,7 +51,7 @@ namespace API.Controllers
                     return id;
                 }
             }
-            //קיים מוצר כזה בעגלה
+            //there is the same product
             return -1;        
         }
         [HttpPost("updatedate/{cartId}/{from}/{to}")]
@@ -61,22 +61,5 @@ namespace API.Controllers
             return service.UpdateDate(cartId, from, to);
         }
        
-        //// GET api/<CartCartoller>
-        //[HttpGet("gettotalprice/{cartid}")]
-        //public double GetTotalPrice(int cartId)
-        //{
-        //    return service.GetTotalPrice(cartId);
-        //}
-        // PUT api/<CartCartoller>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
-
-        //// DELETE api/<CartCartoller>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
     }
 }

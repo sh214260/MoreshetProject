@@ -20,6 +20,8 @@ public partial class User
     public string PhoneNumber2 { get; set; } = null!;
 
     public int Type { get; set; }
+    public string? InstitutionalName { get; set; }
+    public string? ReceiptName { get; set; }
 
     public virtual ICollection<Cart> Carts { get; set; } = new List<Cart>();
 

@@ -42,11 +42,7 @@ namespace Services
             
             return repository.ProductIsAvialible(productId, productType, from, to); 
         }
-        //public int AddToCart(int userId, int productId)
-        //{
-
-        //    return repository.AddToCart(userId,productId);
-        //}
+        
         public int AddToCart(int userId, int productId, DateTime from, DateTime to)
         {
             return repository.AddToCart(userId, productId, from, to);

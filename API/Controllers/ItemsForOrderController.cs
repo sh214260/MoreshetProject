@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Services.Interfaces;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,6 +10,11 @@ namespace API.Controllers
     [ApiController]
     public class ItemsForOrderController : ControllerBase
     {
+        private readonly Services.Interfaces.IItemForOrderService service;
+        public ItemsForOrderController(IItemForOrderService bl)
+        {
+            service = bl;
+        }
         // GET: api/<ItemsForOrderController>
         [HttpGet]
         //public IEnumerable<DTO.ItemsForOrder> Get()
@@ -35,9 +42,11 @@ namespace API.Controllers
         }
 
         // DELETE api/<ItemsForOrderController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{orderId}/{productId}")]
+        [Authorize]
+        public bool Delete(int orderId, int productId)
         {
+            return service.Delete(orderId, productId);
         }
     }
 }

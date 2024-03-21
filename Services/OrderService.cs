@@ -127,6 +127,10 @@ namespace Services
         {
             DTO.OrderData orderData = new DTO.OrderData();
             orderData.order = Get(orderId);
+            if(orderData.order == null)
+            {
+                throw new NullReferenceException();
+            }
             orderData.user = UserService.Get(orderData.order.UserId);
             orderData.products = ItemsService.GetProducts(orderId);
             return orderData;
