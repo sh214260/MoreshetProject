@@ -8,7 +8,7 @@ namespace Repositories.Interfaces
 {
     public interface IItemForOrderRepository
     {
-       public bool Delete(int orderId, int productId);
+        public bool Delete(int orderId, int productId);
         public IEnumerable<Models.Product> GetProducts(int orderId);
     }
 }

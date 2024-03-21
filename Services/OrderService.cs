@@ -61,7 +61,7 @@ namespace Services
             catch
             {
                 //to do: ex 
-                throw;
+                throw new ArgumentNullException();
             }
         }
         public IEnumerable<DTO.Order> Get(Func<Repositories.Models.Order, bool>? predicate = null)
