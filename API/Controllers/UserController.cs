@@ -1,16 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using DTO;
-using Repositories.Models;
-using Services.Interfaces;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using System.Security.Claims;
-using System.IdentityModel.Tokens.Jwt;
-using Newtonsoft.Json.Linq;
+﻿using DTO;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using Services.Interfaces;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 //using System.Web.Http;
 
@@ -30,7 +25,7 @@ namespace API.Controllers
         {
             this.configuration = configuration;
             service = bl;
-            this.cartservice= cartservice;
+            this.cartservice = cartservice;
             this.cartProductservice = cartProductservice;
 
         }
@@ -39,7 +34,7 @@ namespace API.Controllers
         [HttpGet]
         public IEnumerable<DTO.User> Get()
         {
-            IEnumerable <DTO.User> data = service.Get();
+            IEnumerable<DTO.User> data = service.Get();
             HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
             return data;
         }
@@ -48,7 +43,7 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public DTO.User Get(int id)
         {
-          return service.Get(id);
+            return service.Get(id);
         }
 
         [HttpGet("Profile")]
@@ -73,10 +68,10 @@ namespace API.Controllers
             return BadRequest("Unable to extract User ID from token");
 
         }
-       
+
         // GET api/<User>/5
         [HttpPost("signin")]
-        public DTO.LoginResponse Singin([FromBody] Login login)
+        public IActionResult Singin([FromBody] Login login)
         {
             DTO.User user = new DTO.User();
             if (login.by == "client" && login.email != "" && login.password != "")
@@ -84,7 +79,7 @@ namespace API.Controllers
                 user = service.GetUser(login.email, login.password);
                 if (user == null)
                 {
-                    throw new System.Web.Http.HttpResponseException(System.Net.HttpStatusCode.Unauthorized);
+                    return new UnauthorizedResult();
                 }
             }
             else
@@ -92,13 +87,13 @@ namespace API.Controllers
                 user = service.GetUserByPhone(login.phonenumber);
                 if (user == null)
                 {
-                    throw new System.Web.Http.HttpResponseException(System.Net.HttpStatusCode.Unauthorized);
+                    return new UnauthorizedResult();
                 }
             }
             DTO.Cart cart = cartservice.GetByUser(user.Id);
             if (cart == null)
             {
-                throw new System.Web.Http.HttpResponseException(System.Net.HttpStatusCode.Unauthorized);
+                return new UnauthorizedResult();
             }
             IEnumerable<DTO.Product> cartProducts = cartProductservice.GetProducts(cart.Id);
             if (cartProducts == null)
@@ -109,7 +104,7 @@ namespace API.Controllers
                     Cart = cart,
                     CartProducts = null,
                 };
-                return respo;
+                return new OkObjectResult(respo);
             }
             //JWT
             var issuer = configuration["Jwt:Issuer"];
@@ -144,18 +139,18 @@ namespace API.Controllers
                 Token = jwtToken
             };
             HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
-            return response;
+            return new OkObjectResult(response);
         }
 
 
         // POST api/<User>
         [HttpPost("signup/{password}")]
-        public bool SignUp(string password,[FromBody] DTO.User user)
+        public bool SignUp(string password, [FromBody] DTO.User user)
         {
-            bool data = service.AddNew(password,user);
+            bool data = service.AddNew(password, user);
             HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
             return data;
-            
+
         }
         [HttpPost("updateuser")]
         public bool UpdateUser([FromBody] DTO.User user)
@@ -164,13 +159,13 @@ namespace API.Controllers
             HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
             return response;
         }
-        
+
         // DELETE api/<User>/5
         [HttpDelete("{userId}")]
         public void Delete(int userId)
         {
             service.Delete(userId);
-            HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");           
+            HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
         }
     }
 }
