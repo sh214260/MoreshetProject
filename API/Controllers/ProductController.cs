@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Services.Interfaces;
-using DTO;
-using Repositories.Models;
-using Services;
-using Microsoft.AspNetCore.Cors;
+﻿using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Services.Interfaces;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -23,7 +21,7 @@ namespace API.Controllers
 
         // GET: api/<ProductController>
         [HttpGet("getall")]
-       
+
         public IEnumerable<DTO.Product> Get()
         {
             IEnumerable<DTO.Product> data = service.Get();
@@ -59,24 +57,27 @@ namespace API.Controllers
             return data;
         }
         [HttpPost("uploadImage")]
-        public IActionResult UploadImage(IFormFile image)
+        public async Task<IActionResult> UploadImage(IFormFile image)
         {
             if (image == null || image.Length == 0)
             {
                 return BadRequest("No image uploaded.");
             }
-            var uniqueFileName =  image.FileName;
-            
-            var filePath = Path.Combine("C:\\Users\\User\\Documents\\development\\MoreshetProject\\API\\Static\\", uniqueFileName);
-            if (System.IO.File.Exists(filePath))
+            var uniqueFileName = image.FileName;
+
+            BlobServiceClient blobServiceClient = new BlobServiceClient("<storage-key>");
+            BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient("images");
+
+            BlobClient blobClient = containerClient.GetBlobClient(uniqueFileName);
+
+            var isExist = await blobClient.ExistsAsync();
+
+            if (isExist)
             {
                 return BadRequest("כבר קיים קובץ עם שם זהה");
             }
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                image.CopyTo(stream);
-            }
-            return Ok(new { imageName = uniqueFileName }); 
+            await blobClient.UploadAsync(image.OpenReadStream(), new BlobHttpHeaders { ContentType = "image/jpeg" });
+            return Ok(new { imageName = uniqueFileName });
         }
 
 
@@ -84,7 +85,7 @@ namespace API.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            service.Delete(id); 
+            service.Delete(id);
         }
     }
 }
