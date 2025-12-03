@@ -1,9 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Repositories.Models;
 
 public partial class FullStackMoreshetdbContext : DbContext
 {
+    private readonly IConfiguration? _configuration;
+
     public FullStackMoreshetdbContext()
     {
     }
@@ -11,6 +14,13 @@ public partial class FullStackMoreshetdbContext : DbContext
     public FullStackMoreshetdbContext(DbContextOptions<FullStackMoreshetdbContext> options)
         : base(options)
     {
+    }
+
+    // Additional constructor to receive IConfiguration when creating the context manually
+    public FullStackMoreshetdbContext(DbContextOptions<FullStackMoreshetdbContext> options, IConfiguration configuration)
+        : base(options)
+    {
+        _configuration = configuration;
     }
 
     public virtual DbSet<Cart> Carts { get; set; }
@@ -28,7 +38,18 @@ public partial class FullStackMoreshetdbContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Server=tcp:moreshetserver.database.windows.net,1433;Initial Catalog=moreshetdb;Persist Security Info=False;User ID=admn;Password=1qaz@WSX3edc;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            // Use configuration-provided connection string if available
+            if (_configuration != null)
+            {
+                optionsBuilder.UseSqlServer(
+                    _configuration.GetConnectionString("DefaultConnection")
+                );
+            }
+        }
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -104,6 +125,8 @@ public partial class FullStackMoreshetdbContext : DbContext
             entity.Property(e => e.Image).HasMaxLength(20);
             entity.Property(e => e.Name).HasMaxLength(20);
             entity.Property(e => e.Type).HasMaxLength(10);
+
+            entity.Property(e => e.SpecialPrice).HasColumnType("int").IsRequired(false);
         });
 
         modelBuilder.Entity<User>(entity =>

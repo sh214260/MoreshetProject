@@ -33,29 +33,32 @@ namespace Repositories
                 return false;
             }
         }
-        public void Delete(int productId)
+        public bool Delete(int productId)
         {
             try
             {
-                if (productId < 0)
+                if (productId <0)
                 {
                     //to do: ex
                     throw new ArgumentOutOfRangeException();
                 }
-                Models.Product product = new Product();
-                product = context.Products.Find(productId);
+                var product = context.Products.Find(productId);
+                if (product == null)
+                    return false;
                 context.Products.Remove(product);
                 context.SaveChanges();
+                return true;
 
             }
             catch
             {
+                return false;
 
             }
         }
         public Product Get(int id)
         {
-            if (id < 0)
+            if (id <0)
             {
                 //to do: ex
                 throw new ArgumentOutOfRangeException();
@@ -91,6 +94,22 @@ namespace Repositories
         {
             IEnumerable<string> images = context.Products.Select(p => p.Image);
             return images;
+        }
+
+        public bool Update(Models.Product product)
+        {
+            try
+            {
+                if (product == null)
+                    return false;
+                context.Products.Update(product);
+                context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
