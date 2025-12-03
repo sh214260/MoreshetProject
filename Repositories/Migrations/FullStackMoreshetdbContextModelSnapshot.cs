@@ -17,7 +17,7 @@ namespace Repositories.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.5")
+                .HasAnnotation("ProductVersion", "8.0.16")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -26,18 +26,24 @@ namespace Repositories.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<double>("TotalPrice")
-                        .HasColumnType("float")
-                        .HasColumnName("totalPrice");
+                    b.Property<DateTime?>("FromDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int")
-                        .HasColumnName("userId");
+                    b.Property<bool>("IsOpen")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ToDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("TotalPrice")
+                        .HasColumnType("float");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -46,14 +52,41 @@ namespace Repositories.Migrations
                     b.ToTable("Cart", (string)null);
                 });
 
+            modelBuilder.Entity("Repositories.Models.CartProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CartId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CartId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("CartProduct", (string)null);
+                });
+
             modelBuilder.Entity("Repositories.Models.Category", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<string>("Name")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -63,7 +96,10 @@ namespace Repositories.Migrations
             modelBuilder.Entity("Repositories.Models.ItemsForOrder", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
@@ -83,19 +119,32 @@ namespace Repositories.Migrations
             modelBuilder.Entity("Repositories.Models.Order", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("CartId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DateOrder")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("DeliveryPrice")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("FromDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsDelivery")
+                    b.Property<string>("Notes")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<bool?>("PaidUp")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("PaidUp")
-                        .HasColumnType("bit");
+                    b.Property<string>("PaymentWay")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("Receipt")
                         .HasColumnType("bit");
@@ -109,7 +158,12 @@ namespace Repositories.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("CartId");
 
                     b.HasIndex("UserId");
 
@@ -124,27 +178,49 @@ namespace Repositories.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CartId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CategoryId")
-                        .HasColumnType("int");
+                    b.Property<string>("Comment")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("Name")
+                    b.Property<double?>("Height")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Image")
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<int?>("Price")
+                    b.Property<double?>("Length")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<int>("Price")
                         .HasColumnType("int");
 
+                    b.Property<int?>("SpecialPrice")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Type")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<bool?>("Weight")
+                        .HasColumnType("bit");
+
+                    b.Property<double?>("Width")
+                        .HasColumnType("float");
+
                     b.HasKey("Id");
-
-                    b.HasIndex("CartId");
-
-                    b.HasIndex("CategoryId");
 
                     b.ToTable("Product", (string)null);
                 });
@@ -162,29 +238,33 @@ namespace Repositories.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
-                    b.Property<string>("PhoneNumber1")
-                        .IsRequired()
+                    b.Property<string>("InstitutionalName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("PhoneNumber1")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<string>("PhoneNumber2")
-                        .HasMaxLength(10)
-                        .HasColumnType("nchar(10)")
-                        .IsFixedLength();
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("ReceiptName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");
@@ -196,19 +276,32 @@ namespace Repositories.Migrations
 
             modelBuilder.Entity("Repositories.Models.Cart", b =>
                 {
-                    b.HasOne("Repositories.Models.Product", "User")
+                    b.HasOne("Repositories.Models.User", "User")
                         .WithMany("Carts")
                         .HasForeignKey("UserId")
-                        .HasConstraintName("FK_Cart_Product");
-
-                    b.HasOne("Repositories.Models.User", "UserNavigation")
-                        .WithMany("Carts")
-                        .HasForeignKey("UserId")
+                        .IsRequired()
                         .HasConstraintName("FK_Cart_User");
 
                     b.Navigation("User");
+                });
 
-                    b.Navigation("UserNavigation");
+            modelBuilder.Entity("Repositories.Models.CartProduct", b =>
+                {
+                    b.HasOne("Repositories.Models.Cart", "Cart")
+                        .WithMany("CartProducts")
+                        .HasForeignKey("CartId")
+                        .IsRequired()
+                        .HasConstraintName("FK_CartProduct_Cart");
+
+                    b.HasOne("Repositories.Models.Product", "Product")
+                        .WithMany("CartProducts")
+                        .HasForeignKey("ProductId")
+                        .IsRequired()
+                        .HasConstraintName("FK_CartProduct_Product");
+
+                    b.Navigation("Cart");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Repositories.Models.ItemsForOrder", b =>
@@ -232,37 +325,27 @@ namespace Repositories.Migrations
 
             modelBuilder.Entity("Repositories.Models.Order", b =>
                 {
+                    b.HasOne("Repositories.Models.Cart", "Cart")
+                        .WithMany("Orders")
+                        .HasForeignKey("CartId")
+                        .HasConstraintName("FK_Order_Cart");
+
                     b.HasOne("Repositories.Models.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId")
                         .IsRequired()
                         .HasConstraintName("FK_Order_User");
 
+                    b.Navigation("Cart");
+
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Repositories.Models.Product", b =>
-                {
-                    b.HasOne("Repositories.Models.Cart", null)
-                        .WithMany("Products")
-                        .HasForeignKey("CartId");
-
-                    b.HasOne("Repositories.Models.Category", "Category")
-                        .WithMany("Products")
-                        .HasForeignKey("CategoryId")
-                        .HasConstraintName("FK_Product_Category");
-
-                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Repositories.Models.Cart", b =>
                 {
-                    b.Navigation("Products");
-                });
+                    b.Navigation("CartProducts");
 
-            modelBuilder.Entity("Repositories.Models.Category", b =>
-                {
-                    b.Navigation("Products");
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("Repositories.Models.Order", b =>
@@ -272,7 +355,7 @@ namespace Repositories.Migrations
 
             modelBuilder.Entity("Repositories.Models.Product", b =>
                 {
-                    b.Navigation("Carts");
+                    b.Navigation("CartProducts");
 
                     b.Navigation("ItemsForOrders");
                 });

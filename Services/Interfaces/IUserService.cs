@@ -17,6 +17,6 @@ namespace Services.Interfaces
         public DTO.User GetUserByPhone(string phonenumber);
         public bool UpdateAddress(int userId, string adress);
         public bool UpdateUser (DTO.User newUser);
-        public DTO.User GetUserByToken(string token);
+       
     }
 }

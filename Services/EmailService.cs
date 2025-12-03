@@ -41,7 +41,8 @@ namespace Services
                 mailMessage.From = new MailAddress("moreshet4964@gmail.com");
                 mailMessage.To.Add(user.Email);
                 mailMessage.Subject = $"אישור הזמנה: {order.Id}";
-                mailMessage.Body = $"הזמנה מספר: {order.Id} אושרה\nלתאריך: {order.FromDate}-{order.ToDate}\n";
+                mailMessage.Body = $"הזמנה מספר: {order.Id} אושרה\nלתאריך: {order.FromDate}מ" +
+                    $"{order.ToDate}עד ל\n";
 
                 smtpClient.Send(mailMessage);
                 return true;

@@ -28,6 +28,9 @@ namespace Services
             collection.AddScoped(typeof(Services.Interfaces.ICartService), typeof(Services.CartService));
             collection.AddScoped(typeof(Services.Interfaces.IEmailService), typeof(Services.EmailService));
             collection.AddScoped(typeof(Services.Interfaces.IItemForOrderService), typeof(Services.ItemForOrderService));
+           
+            
+          //  collection.AddScoped(typeof(Services.Interfaces.IPaymentService), typeof(Services.PaymentService));
 
             collection.AddDbContext<Repositories.Models.FullStackMoreshetdbContext>();
             var mapping = new MapperConfiguration(mc =>

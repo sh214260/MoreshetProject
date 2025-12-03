@@ -13,6 +13,8 @@ public partial class Product
 
     public int Price { get; set; }
 
+    public int? SpecialPrice { get; set; } // changed to int?
+
     public string? Description { get; set; }
 
     public string? Type { get; set; }
@@ -26,6 +28,7 @@ public partial class Product
     public double? Width { get; set; }
 
     public string? Comment { get; set; }
+    public double? Height { get; set; }
     public virtual ICollection<CartProduct> CartProducts { get; set; } = new List<CartProduct>();
 
     public virtual ICollection<ItemsForOrder> ItemsForOrders { get; set; } = new List<ItemsForOrder>();

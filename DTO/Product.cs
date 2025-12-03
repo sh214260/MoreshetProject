@@ -12,6 +12,7 @@ namespace DTO
         public string? Name { get; set; }
         public int? CategoryId { get; set; }
         public int? Price { get; set; }
+        public int? SpecialPrice { get; set; } // changed to int?
         public string? Description { get; set; }
         public string? Type { get; set; }
         public bool Weight { get; set; }

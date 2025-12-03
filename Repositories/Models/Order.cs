@@ -26,6 +26,9 @@ public partial class Order
     public int? CartId { get; set; }
 
     public string? Notes { get; set; }
+    public string? UserName { get; set; }
+    public string? PaymentWay { get; set; }
+
 
     public virtual Cart? Cart { get; set; }
 

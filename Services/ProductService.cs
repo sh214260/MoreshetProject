@@ -9,6 +9,7 @@ using Repositories.Models;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using DTO;
 using Services.Interfaces;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Services
 {
@@ -53,26 +54,31 @@ namespace Services
             List<DTO.Product> products = ModelsProducts.Select(pr => mapper.Map<Repositories.Models.Product, DTO.Product>(pr)).ToList();
             return products;
         }
-        public void Delete(int productId)
+        public bool Delete(int productId)
         {
-            try
-            {
+           
                 if (productId < 0)
                 {
                     throw new EntityNotFoundExceptions();
                 }
-                repository.Delete(productId);
+              return  repository.Delete(productId);
 
-            }
-            catch
-            {
 
-            }
         }
 
         public IEnumerable<string> GetImages()
         {
             return repository.GetImages();
+        }
+
+        public bool Update(DTO.Product product)
+        {
+            if (product==null)
+            {
+                throw new EntityNotFoundExceptions();
+            }
+            Repositories.Models.Product modproduct = mapper.Map<Repositories.Models.Product>(product);
+            return repository.Update(modproduct);
         }
     }
 }

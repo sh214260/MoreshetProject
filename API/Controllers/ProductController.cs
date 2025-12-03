@@ -3,6 +3,8 @@ using Azure.Storage.Blobs.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,9 +16,11 @@ namespace API.Controllers
     public class ProductController : ControllerBase
     {
         private readonly Services.Interfaces.IProductService service;
-        public ProductController(IProductService bl)
+        private readonly IConfiguration configuration;
+        public ProductController(IProductService bl, IConfiguration configuration)
         {
             service = bl;
+            this.configuration = configuration;
         }
 
         // GET: api/<ProductController>
@@ -63,21 +67,47 @@ namespace API.Controllers
             {
                 return BadRequest("No image uploaded.");
             }
-            var uniqueFileName = image.FileName;
 
-            BlobServiceClient blobServiceClient = new BlobServiceClient("<storage-key>");
-            BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient("images");
+            var uniqueFileName = $"{Guid.NewGuid():N}_{Path.GetFileName(image.FileName)}";
 
-            BlobClient blobClient = containerClient.GetBlobClient(uniqueFileName);
-
-            var isExist = await blobClient.ExistsAsync();
-
-            if (isExist)
+            // Read connection string from configuration
+            var connectionString = configuration["AzureStorage:ConnectionString"];
+            if (string.IsNullOrWhiteSpace(connectionString))
             {
-                return BadRequest("כבר קיים קובץ עם שם זהה");
+                return StatusCode(500, "Storage connection string is not configured.");
             }
-            await blobClient.UploadAsync(image.OpenReadStream(), new BlobHttpHeaders { ContentType = "image/jpeg" });
-            return Ok(new { imageName = uniqueFileName });
+
+            try
+            {
+                var blobServiceClient = new BlobServiceClient(connectionString);
+                var containerClient = blobServiceClient.GetBlobContainerClient("images");
+
+                await containerClient.CreateIfNotExistsAsync();
+
+                var blobClient = containerClient.GetBlobClient(uniqueFileName);
+
+                if (await blobClient.ExistsAsync())
+                {
+                    return BadRequest("כבר קיים קובץ עם שם זהה");
+                }
+
+                var contentType = string.IsNullOrWhiteSpace(image.ContentType) ? "application/octet-stream" : image.ContentType;
+
+                await blobClient.UploadAsync(image.OpenReadStream(), new BlobHttpHeaders { ContentType = contentType });
+                return Ok(new { imageName = uniqueFileName });
+            }
+            catch (Azure.RequestFailedException ex)
+            {
+                return StatusCode(502, $"Storage request failed: {ex.Message}");
+            }
+            catch (FormatException)
+            {
+                return StatusCode(500, "Storage connection string is malformed. Check configuration.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Unexpected error: {ex.Message}");
+            }
         }
 
 
